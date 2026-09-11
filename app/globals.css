@@ -1,0 +1,204 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  /* Base — Clean Light Marketplace */
+  --bg-page:      #F0F4FF;
+  --bg-white:     #FFFFFF;
+  --bg-surface:   #F8FAFC;
+  --bg-muted:     #F1F5F9;
+  --bg-overlay:   #E2E8F0;
+
+  /* Brand — Blue Primary (Glints-inspired) */
+  --brand-blue:        #0066FF;
+  --brand-blue-dark:   #0052CC;
+  --brand-blue-light:  #EFF6FF;
+  --brand-blue-mid:    #DBEAFE;
+
+  /* Accents */
+  --accent-green:  #10B981;
+  --accent-gold:   #F59E0B;
+  --accent-red:    #EF4444;
+  --accent-purple: #8B5CF6;
+  --accent-teal:   #14B8A6;
+
+  /* Text */
+  --text-heading:    #0F172A;
+  --text-body:       #475569;
+  --text-secondary:  #64748B;
+  --text-muted:      #94A3B8;
+  --text-brand:      #0066FF;
+
+  /* Border */
+  --border-default: #E2E8F0;
+  --border-strong:  #CBD5E1;
+  --border-brand:   rgba(0, 102, 255, 0.25);
+}
+
+* {
+  scroll-behavior: smooth;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-page);
+  color: var(--text-body);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Typography helpers */
+.text-heading { color: var(--text-heading); }
+.font-mono    { font-family: 'JetBrains Mono', monospace; }
+
+/* Clean white card — Glints style */
+.card-white {
+  background: #FFFFFF;
+  border: 1px solid var(--border-default);
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+.card-white:hover {
+  border-color: var(--border-brand);
+  box-shadow: 0 4px 20px rgba(0, 102, 255, 0.08), 0 1px 3px rgba(0, 0, 0, 0.06);
+  transform: translateY(-1px);
+}
+
+/* Alias for backward compat */
+.card-glass {
+  background: #FFFFFF;
+  border: 1px solid var(--border-default);
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+.card-glass:hover {
+  border-color: #BFDBFE;
+  box-shadow: 0 4px 20px rgba(0, 102, 255, 0.07), 0 1px 3px rgba(0, 0, 0, 0.05);
+  transform: translateY(-1px);
+}
+
+/* Section utility */
+.section-clean {
+  background: #FFFFFF;
+  border-top: 1px solid var(--border-default);
+  border-bottom: 1px solid var(--border-default);
+}
+
+/* Gradients */
+.text-gradient-brand {
+  background: linear-gradient(135deg, #0066FF 0%, #0052CC 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Legacy compat */
+.text-gradient-cyan {
+  color: #0066FF;
+  font-weight: 700;
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #0066FF 0%, #6366F1 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-green {
+  color: #10B981;
+  font-weight: 700;
+}
+
+.text-gradient-gold {
+  color: #F59E0B;
+  font-weight: 700;
+}
+
+/* Badge styles */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  border: 1px solid transparent;
+}
+
+.badge-blue   { background: #EFF6FF; color: #0066FF; border-color: #BFDBFE; }
+.badge-green  { background: #ECFDF5; color: #059669; border-color: #A7F3D0; }
+.badge-gold   { background: #FFFBEB; color: #D97706; border-color: #FDE68A; }
+.badge-gray   { background: #F1F5F9; color: #64748B; border-color: #E2E8F0; }
+.badge-red    { background: #FEF2F2; color: #DC2626; border-color: #FECACA; }
+
+/* Search bar */
+.search-bar {
+  background: #FFFFFF;
+  border: 1.5px solid var(--border-default);
+  border-radius: 8px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.search-bar:focus-within {
+  border-color: #0066FF;
+  box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
+}
+
+/* Divider */
+.divider { border-top: 1px solid var(--border-default); }
+
+/* Custom scrollbar — clean */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #F8FAFC; }
+::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
+
+/* Tag pill (Glints popular tag style) */
+.tag-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 500;
+  background: #FFFFFF;
+  border: 1px solid var(--border-default);
+  color: #0066FF;
+  transition: all 0.15s ease;
+  cursor: pointer;
+}
+.tag-pill:hover {
+  background: #EFF6FF;
+  border-color: #BFDBFE;
+}
+
+/* Reveal — no animation needed for light mode, just visible */
+.reveal { opacity: 1; }
+.stagger-children > * { opacity: 1; }
+
+/* Number counter */
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Verified badge pulse */
+@keyframes verifiedPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.3); }
+  50% { box-shadow: 0 0 0 4px rgba(16, 185, 129, 0); }
+}
+
+/* Glints-style hero gradient background */
+.hero-bg {
+  background: linear-gradient(160deg, #EFF6FF 0%, #F0F4FF 40%, #EDE9FE 100%);
+}
+
+/* Sticky search bar shadow on scroll */
+.navbar-shadow {
+  box-shadow: 0 1px 0 #E2E8F0;
+}

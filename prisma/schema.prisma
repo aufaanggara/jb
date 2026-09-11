@@ -1,0 +1,127 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  username    String   @unique
+  fullName    String
+  whatsapp    String?
+  avatarUrl   String?
+  role        Role     @default(USER)
+  isVerified  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  adminProfile         AdminProfile?
+  listingsAsSeller     Listing[]
+  transactionsAsBuyer  Transaction[] @relation("BuyerTransactions")
+  transactionsAsAdmin  Transaction[] @relation("AdminTransactions")
+  reviewsGiven         Review[]      @relation("ReviewGiver")
+  reviewsReceived      Review[]      @relation("ReviewReceiver")
+}
+
+enum Role {
+  USER
+  ADMIN
+  SUPER_ADMIN
+}
+
+model AdminProfile {
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  user         User     @relation(fields: [userId], references: [id])
+  bio          String?
+  fee          Int
+  bankAccounts Json
+  activeHours  String?
+  trustScore   Float    @default(0)
+  responseTime Int?
+  totalSuccess Int      @default(0)
+  isActive     Boolean  @default(true)
+  joinedAt     DateTime @default(now())
+}
+
+model Listing {
+  id          String        @id @default(cuid())
+  sellerId    String
+  seller      User          @relation(fields: [sellerId], references: [id])
+  title       String
+  game        String        @default("eFootball")
+  price       Int
+  description String
+  details     Json
+  images      String[]
+  status      ListingStatus @default(AVAILABLE)
+  isFeatured  Boolean       @default(false)
+  viewCount   Int           @default(0)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  transactions Transaction[]
+}
+
+enum ListingStatus {
+  AVAILABLE
+  IN_TRANSACTION
+  SOLD
+  INACTIVE
+}
+
+model Transaction {
+  id          String            @id @default(cuid())
+  listingId   String
+  listing     Listing           @relation(fields: [listingId], references: [id])
+  buyerId     String
+  buyer       User              @relation("BuyerTransactions", fields: [buyerId], references: [id])
+  adminId     String
+  admin       User              @relation("AdminTransactions", fields: [adminId], references: [id])
+  price       Int
+  platformFee Int               @default(500)
+  adminFee    Int               @default(1000)
+  status      TransactionStatus @default(PENDING_PAYMENT)
+  notes       String?
+  proofUrls   String[]
+  logs        Json[]
+  checklist   Json
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  reviews Review[]
+}
+
+enum TransactionStatus {
+  PENDING_PAYMENT
+  PAYMENT_CONFIRMED
+  IN_HANDOVER
+  PENDING_BUYER_CONFIRM
+  COMPLETED
+  DISPUTED
+  CANCELLED
+}
+
+model Review {
+  id            String      @id @default(cuid())
+  transactionId String
+  transaction   Transaction @relation(fields: [transactionId], references: [id])
+  giverId       String
+  giver         User        @relation("ReviewGiver", fields: [giverId], references: [id])
+  receiverId    String
+  receiver      User        @relation("ReviewReceiver", fields: [receiverId], references: [id])
+  rating        Int
+  comment       String?
+  type          ReviewType
+  createdAt     DateTime    @default(now())
+}
+
+enum ReviewType {
+  BUYER_TO_SELLER
+  BUYER_TO_ADMIN
+  SELLER_TO_ADMIN
+}

@@ -1,0 +1,102 @@
+export type Role = "USER" | "ADMIN" | "SUPER_ADMIN";
+
+export type ListingStatus = "AVAILABLE" | "IN_TRANSACTION" | "SOLD" | "INACTIVE";
+
+export type TransactionStatus =
+  | "PENDING_PAYMENT"
+  | "PAYMENT_CONFIRMED"
+  | "IN_HANDOVER"
+  | "PENDING_BUYER_CONFIRM"
+  | "COMPLETED"
+  | "DISPUTED"
+  | "CANCELLED";
+
+export interface UserProfile {
+  id: string;
+  username: string;
+  fullName: string;
+  avatarUrl?: string;
+  whatsapp?: string;
+  role: Role;
+  isVerified: boolean;
+  rating?: number;
+  totalTransactions?: number;
+}
+
+export interface BankAccount {
+  bank: string;
+  accountNumber: string;
+  accountName: string;
+}
+
+export interface AdminProfile {
+  id: string;
+  user: UserProfile;
+  bio: string;
+  fee: number;
+  bankAccounts: BankAccount[];
+  activeHours: string;
+  trustScore: number;
+  responseTime: number; // minutes
+  totalSuccess: number;
+  joinedAt: string;
+}
+
+export interface ListingDetails {
+  overall: number;
+  league: string;
+  coins: number;
+  gp: number;
+  players: string[];
+  notes: string;
+  loginMethod?: string; // e.g. "Konami ID", "Moonton", "Google Play"
+  isNominus?: boolean;  // Tautan bersih / no minus
+  cardTypes?: string[]; // e.g. ["Epic Booster", "Big Time", "Show Time"]
+  hasWarranty?: boolean;// Garansi anti hackback
+  region?: string;      // e.g. "Indonesia", "Global"
+}
+
+export interface Listing {
+  id: string;
+  seller: UserProfile;
+  title: string;
+  game: string;
+  price: number;
+  description: string;
+  details: ListingDetails;
+  images: string[];
+  status: ListingStatus;
+  isFeatured: boolean;
+  viewCount: number;
+  createdAt: string;
+}
+
+export interface TimelineStep {
+  label: string;
+  timestamp?: string;
+  done: boolean;
+}
+
+export interface Transaction {
+  id: string;
+  listing: Listing;
+  buyer: UserProfile;
+  admin: AdminProfile;
+  price: number;
+  platformFee: number;
+  adminFee: number;
+  status: TransactionStatus;
+  notes?: string;
+  proofUrls: string[];
+  timeline: TimelineStep[];
+  checklist: { label: string; checked: boolean }[];
+  createdAt: string;
+}
+
+export interface Review {
+  id: string;
+  giverName: string;
+  rating: number;
+  comment: string;
+  createdAt: string;
+}
