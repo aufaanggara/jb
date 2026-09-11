@@ -8,6 +8,8 @@ import { Avatar } from "@/components/ui/Avatar";
 import { formatRupiah, waLink } from "@/lib/utils";
 import { BuyPanel } from "./BuyPanel";
 
+import { DetailBackButton } from "@/components/marketplace/DetailBackButton";
+
 export default function ListingDetailPage({ params }: { params: { id: string } }) {
   const listing = dummyListings.find((l) => l.id === params.id);
   if (!listing) return notFound();
@@ -17,9 +19,7 @@ export default function ListingDetailPage({ params }: { params: { id: string } }
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         {/* Breadcrumb navigation */}
         <div className="flex items-center gap-2 text-xs font-semibold text-blue-600 mb-6">
-          <Link href="/listings" className="hover:underline flex items-center gap-1">
-            <ArrowLeft size={14} /> Kembali ke Marketplace
-          </Link>
+          <DetailBackButton />
           <span className="text-slate-300">/</span>
           <span className="text-slate-600 truncate max-w-xs">{listing.title}</span>
         </div>

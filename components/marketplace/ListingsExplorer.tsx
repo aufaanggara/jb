@@ -173,7 +173,7 @@ export function ListingsExplorer({ initialSearch = "" }: { initialSearch?: strin
     statusFilter !== "AVAILABLE";
 
   return (
-    <div>
+    <div id="listings-section">
       {/* 1. Main Search & Game Filter Bar */}
       <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs mb-6">
         <div className="flex flex-col md:flex-row items-stretch gap-3 mb-4">

@@ -24,6 +24,18 @@ export function initLenis() {
   return lenisInstance;
 }
 
+export function getLenis() {
+  return lenisInstance;
+}
+
+export function scrollToPosition(y: number, immediate: boolean = true) {
+  if (lenisInstance) {
+    lenisInstance.scrollTo(y, { immediate });
+  } else if (typeof window !== "undefined") {
+    window.scrollTo({ top: y, behavior: immediate ? "instant" : "smooth" });
+  }
+}
+
 export function destroyLenis() {
   lenisInstance?.destroy();
   lenisInstance = null;

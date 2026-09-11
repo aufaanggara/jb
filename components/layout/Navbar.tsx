@@ -7,8 +7,7 @@ import { Button } from "@/components/ui/Button";
 const links = [
   { href: "/listings", label: "Cari Akun" },
   { href: "/rekber", label: "Admin Rekber" },
-  { href: "/#cara-kerja", label: "Cara Kerja" },
-  { href: "/#kalkulator-fee", label: "Kalkulator Fee" },
+  { href: "/tentang-kami", label: "Tentang Kami" },
 ];
 
 export function Navbar() {

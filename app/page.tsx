@@ -1,21 +1,14 @@
-import { Hero } from "@/components/landing/Hero";
-import { HowItWorks } from "@/components/landing/HowItWorks";
-import { FeaturedListings } from "@/components/landing/FeaturedListings";
-import { FeeCalculator } from "@/components/landing/FeeCalculator";
-import { TopAdmins } from "@/components/landing/TopAdmins";
-import { TrustSafety } from "@/components/landing/TrustStats";
-import { FAQ } from "@/components/landing/FAQ";
+import { HeroSearch } from "@/components/landing/HeroSearch";
+import { FeaturedGrid } from "@/components/landing/FeaturedGrid";
 
 export default function HomePage() {
   return (
     <>
-      <Hero />
-      <HowItWorks />
-      <FeaturedListings />
-      <FeeCalculator />
-      <TopAdmins />
-      <TrustSafety />
-      <FAQ />
+      {/* Hero search bar — Glints style */}
+      <HeroSearch />
+
+      {/* Featured listings with game tabs + "Lihat Semua Katalog" button */}
+      <FeaturedGrid />
     </>
   );
 }

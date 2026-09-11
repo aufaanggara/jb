@@ -1,19 +1,68 @@
 "use client";
 import Link from "next/link";
-import { ShieldCheck, CheckCircle2 } from "lucide-react";
+import { useState } from "react";
+import { ShieldCheck, CheckCircle2, Bookmark } from "lucide-react";
 import { formatRupiah } from "@/lib/utils";
 import type { Listing } from "@/types";
+import { toast } from "sonner";
 
 export function ListingCard({ listing }: { listing: Listing }) {
+  const [isSaved, setIsSaved] = useState(false);
+
   // Fallback image just in case
   const imageSrc =
     listing.images && listing.images.length > 0
       ? listing.images[0]
       : "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=2070&auto=format&fit=crop";
 
+  const handleSave = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsSaved(!isSaved);
+    if (!isSaved) {
+      toast.success("Disimpan ke bookmark!", {
+        description: listing.title,
+        duration: 2000,
+      });
+    } else {
+      toast("Dihapus dari bookmark", {
+        duration: 1500,
+      });
+    }
+  };
+
   return (
     <div className="group bg-white rounded-2xl border border-slate-200 hover:border-blue-500 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col h-full overflow-hidden relative">
-      <Link href={`/listings/${listing.id}`} className="flex flex-col h-full">
+      {/* Save/Bookmark Button */}
+      <button
+        onClick={handleSave}
+        className={`absolute top-3 right-3 z-20 p-2 rounded-lg backdrop-blur-md border transition-all cursor-pointer ${
+          isSaved
+            ? "bg-blue-600 border-blue-500 text-white shadow-md"
+            : "bg-black/30 border-white/20 text-white hover:bg-black/50 hover:border-white/40"
+        }`}
+        title={isSaved ? "Hapus dari bookmark" : "Simpan akun ini"}
+      >
+        <Bookmark
+          size={16}
+          fill={isSaved ? "currentColor" : "none"}
+          strokeWidth={2}
+        />
+      </button>
+
+      <Link
+        href={`/listings/${listing.id}`}
+        className="flex flex-col h-full"
+        onClick={() => {
+          if (typeof window !== "undefined") {
+            try {
+              const currentUrl = window.location.pathname + window.location.search;
+              sessionStorage.setItem("last_listing_origin", currentUrl);
+              sessionStorage.setItem("scroll_pos_" + currentUrl, String(window.scrollY));
+            } catch (e) {}
+          }
+        }}
+      >
         {/* Photo Area - Maximize visual impact */}
         <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-900">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -28,7 +77,7 @@ export function ListingCard({ listing }: { listing: Listing }) {
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/20 to-slate-900/40 pointer-events-none" />
 
           {/* Top Badges */}
-          <div className="absolute top-3 left-3 right-3 flex justify-between items-start z-10">
+          <div className="absolute top-3 left-3 right-12 flex justify-between items-start z-10">
             <div className="flex flex-col gap-1.5 items-start">
               <span className="text-[10px] font-black tracking-wide px-2 py-1 rounded bg-white text-blue-700 shadow-sm uppercase">
                 {listing.game}
