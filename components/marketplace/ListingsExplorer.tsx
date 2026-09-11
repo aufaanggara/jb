@@ -5,20 +5,17 @@ import { ListingCard } from "@/components/marketplace/ListingCard";
 import {
   Search,
   Filter,
-  SlidersHorizontal,
   RotateCcw,
   X,
   ShieldCheck,
   CheckCircle2,
   Trophy,
-  Coins,
-  Wallet,
-  Sparkles,
-  KeyRound,
-  ArrowUpDown,
   Flame,
   AlertCircle,
   Gamepad2,
+  ArrowUpDown,
+  SlidersHorizontal,
+  Check,
 } from "lucide-react";
 import { Slider } from "@/components/ui/Slider";
 import { Checkbox } from "@/components/ui/Checkbox";
@@ -33,13 +30,12 @@ const GAME_TABS = [
   { id: "FC Mobile", label: "FC Mobile" },
 ];
 
-// Quick shortcut chips for JB Gamers
-const QUICK_CHIPS = [
-  { id: "nominus", label: "🛡️ Nominus / Siap Ganti" },
-  { id: "ovr90", label: "⭐ OVR 90+ (Full Legend)" },
-  { id: "warranty", label: "✅ Garansi Anti-Hackback" },
-  { id: "budget300", label: "💰 Budget < 350rb" },
-  { id: "epic", label: "🔥 Epic Booster / Big Time" },
+const SORT_OPTIONS = [
+  { value: "latest", label: "Terbaru Ditambahkan" },
+  { value: "ovr_desc", label: "OVR Squad Tertinggi" },
+  { value: "price_asc", label: "Harga: Termurah" },
+  { value: "price_desc", label: "Harga: Termahal" },
+  { value: "rating_desc", label: "Rating Penjual" },
 ];
 
 export function ListingsExplorer({ initialSearch = "" }: { initialSearch?: string }) {
@@ -54,6 +50,10 @@ export function ListingsExplorer({ initialSearch = "" }: { initialSearch?: strin
   const [minRating, setMinRating] = useState("all");
   const [statusFilter, setStatusFilter] = useState("AVAILABLE");
   const [sortBy, setSortBy] = useState("latest");
+
+  // Mobile Drawer Modals
+  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
+  const [isMobileSortOpen, setIsMobileSortOpen] = useState(false);
 
   // Filter logic
   const filteredListings = useMemo(() => {
@@ -96,10 +96,8 @@ export function ListingsExplorer({ initialSearch = "" }: { initialSearch?: strin
       }
 
       // 6. Login method
-      if (selectedLoginMethod !== "all") {
-        if (l.details.loginMethod !== selectedLoginMethod) {
-          return false;
-        }
+      if (selectedLoginMethod !== "all" && l.details.loginMethod !== selectedLoginMethod) {
+        return false;
       }
 
       // 7. OVR
@@ -129,7 +127,6 @@ export function ListingsExplorer({ initialSearch = "" }: { initialSearch?: strin
       if (sortBy === "price_desc") return b.price - a.price;
       if (sortBy === "ovr_desc") return b.details.overall - a.details.overall;
       if (sortBy === "rating_desc") return (b.seller.rating ?? 0) - (a.seller.rating ?? 0);
-      // Default: latest (newest first)
       return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
     });
   }, [
@@ -159,33 +156,162 @@ export function ListingsExplorer({ initialSearch = "" }: { initialSearch?: strin
     setSortBy("latest");
   };
 
-  // Active filter count
-  const hasActiveFilters =
-    search !== "" ||
-    selectedGame !== "all" ||
-    priceRange[0] !== 50000 ||
-    priceRange[1] !== 3000000 ||
-    isNominusOnly ||
-    hasWarrantyOnly ||
-    selectedLoginMethod !== "all" ||
-    minOvr !== "all" ||
-    minRating !== "all" ||
-    statusFilter !== "AVAILABLE";
+  // Count active specific filters
+  const activeFilterCount = useMemo(() => {
+    let count = 0;
+    if (selectedGame !== "all") count++;
+    if (priceRange[0] !== 50000 || priceRange[1] !== 3000000) count++;
+    if (isNominusOnly) count++;
+    if (hasWarrantyOnly) count++;
+    if (selectedLoginMethod !== "all") count++;
+    if (minOvr !== "all") count++;
+    if (minRating !== "all") count++;
+    if (statusFilter !== "AVAILABLE") count++;
+    return count;
+  }, [selectedGame, priceRange, isNominusOnly, hasWarrantyOnly, selectedLoginMethod, minOvr, minRating, statusFilter]);
+
+  const hasActiveFilters = search !== "" || activeFilterCount > 0;
+
+  // Reusable Filter Content (for both Desktop Sidebar & Mobile Sheet)
+  const renderFilterFields = () => (
+    <div className="space-y-6">
+      {/* Filter: Rentang Harga */}
+      <div>
+        <div className="flex items-center justify-between mb-2">
+          <label className="text-xs font-bold uppercase tracking-wider text-slate-700">
+            Budget / Harga
+          </label>
+        </div>
+        <Slider
+          value={priceRange}
+          min={50000}
+          max={3000000}
+          step={50000}
+          onValueChange={setPriceRange}
+        />
+        <div className="flex justify-between text-xs text-slate-600 mt-2 font-semibold">
+          <span>{formatRupiah(priceRange[0])}</span>
+          <span>{formatRupiah(priceRange[1])}</span>
+        </div>
+
+        {/* Quick Price Buttons */}
+        <div className="grid grid-cols-2 gap-1.5 mt-3">
+          {[
+            { label: "< 200rb", range: [50000, 200000] },
+            { label: "200k - 500k", range: [200000, 500000] },
+            { label: "500k - 1.5M", range: [500000, 1500000] },
+            { label: "> 1.5 Juta", range: [1500000, 3000000] },
+          ].map((p) => (
+            <button
+              key={p.label}
+              onClick={() => setPriceRange(p.range)}
+              className={`text-[11px] py-1.5 px-2 rounded-lg font-medium border text-center transition-colors cursor-pointer ${
+                priceRange[0] === p.range[0] && priceRange[1] === p.range[1]
+                  ? "bg-blue-600 text-white border-blue-600 font-bold shadow-xs"
+                  : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100"
+              }`}
+            >
+              {p.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Filter: Keamanan Akun & Tautan */}
+      <div className="pt-5 border-t border-slate-100">
+        <label className="text-xs font-bold uppercase tracking-wider text-slate-700 block mb-2.5">
+          Keamanan Akun
+        </label>
+        <div className="space-y-2.5">
+          <label className="flex items-center gap-2.5 text-xs text-slate-700 cursor-pointer font-medium hover:text-slate-900">
+            <Checkbox
+              checked={isNominusOnly}
+              onCheckedChange={(v) => setIsNominusOnly(v === true)}
+            />
+            <span>Hanya Nominus (Email Siap Ganti)</span>
+          </label>
+
+          <label className="flex items-center gap-2.5 text-xs text-slate-700 cursor-pointer font-medium hover:text-slate-900">
+            <Checkbox
+              checked={hasWarrantyOnly}
+              onCheckedChange={(v) => setHasWarrantyOnly(v === true)}
+            />
+            <span>Garansi Anti-Hackback</span>
+          </label>
+        </div>
+      </div>
+
+      {/* Filter: Tipe Login Akun */}
+      <div className="pt-5 border-t border-slate-100">
+        <label className="text-xs font-bold uppercase tracking-wider text-slate-700 block mb-2.5">
+          Metode Login
+        </label>
+        <select
+          value={selectedLoginMethod}
+          onChange={(e) => setSelectedLoginMethod(e.target.value)}
+          className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-xs font-medium text-slate-700 focus:outline-none focus:border-blue-500 cursor-pointer"
+        >
+          <option value="all">Semua Tipe Login</option>
+          <option value="Konami ID">Konami ID (Single Login)</option>
+          <option value="Moonton">Moonton (All Unbind)</option>
+          <option value="EA Account">EA Account / FC Mobile</option>
+        </select>
+      </div>
+
+      {/* Filter: Minimal OVR Squad */}
+      <div className="pt-5 border-t border-slate-100">
+        <label className="text-xs font-bold uppercase tracking-wider text-slate-700 block mb-2.5">
+          Tingkat OVR Squad
+        </label>
+        <RadioGroup value={minOvr} onValueChange={setMinOvr} className="space-y-2">
+          {[
+            { value: "all", label: "Semua OVR" },
+            { value: "90", label: "OVR 90+ (Full Legend/Meta)" },
+            { value: "85", label: "OVR 85+ (Divisi Tinggi)" },
+            { value: "80", label: "OVR 80+ (Kompetitif)" },
+          ].map((item) => (
+            <label key={item.value} className="flex items-center gap-2.5 text-xs text-slate-700 cursor-pointer font-medium hover:text-slate-900">
+              <RadioItem value={item.value} />
+              <span>{item.label}</span>
+            </label>
+          ))}
+        </RadioGroup>
+      </div>
+
+      {/* Filter: Status Ketersediaan */}
+      <div className="pt-5 border-t border-slate-100">
+        <label className="text-xs font-bold uppercase tracking-wider text-slate-700 block mb-2.5">
+          Status Listing
+        </label>
+        <RadioGroup value={statusFilter} onValueChange={setStatusFilter} className="space-y-2">
+          {[
+            { value: "AVAILABLE", label: "Tersedia Saja (Ready)" },
+            { value: "ALL", label: "Semua (Termasuk Terjual)" },
+          ].map((item) => (
+            <label key={item.value} className="flex items-center gap-2.5 text-xs text-slate-700 cursor-pointer font-medium hover:text-slate-900">
+              <RadioItem value={item.value} />
+              <span>{item.label}</span>
+            </label>
+          ))}
+        </RadioGroup>
+      </div>
+    </div>
+  );
 
   return (
-    <div id="listings-section">
+    <div id="listings-section" className="relative pb-16 lg:pb-0">
       {/* 1. Main Search & Game Filter Bar */}
-      <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs mb-6">
-        <div className="flex flex-col md:flex-row items-stretch gap-3 mb-4">
-          {/* Search Input with quick clear */}
-          <div className="flex-1 flex items-center gap-2.5 px-3.5 py-2.5 bg-slate-50 rounded-xl border border-slate-200 focus-within:border-blue-500 focus-within:bg-white transition-all">
-            <Search size={19} className="text-slate-400 shrink-0" />
+      <div className="bg-white rounded-2xl border border-slate-200 p-3.5 sm:p-4 shadow-xs mb-5">
+        <div className="flex flex-col sm:flex-row items-stretch gap-2.5 mb-3 sm:mb-4">
+          {/* Search Input */}
+          <div className="flex-1 flex items-center gap-2 px-3.5 py-2.5 bg-slate-50 rounded-xl border border-slate-200 focus-within:border-blue-500 focus-within:bg-white transition-all">
+            <Search size={18} className="text-slate-400 shrink-0" />
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Cari pemain (Messi, Mbappe, Chou), koin, OVR, no minus, Konami ID, atau nama seller..."
-              className="w-full bg-transparent text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none font-medium"
+              placeholder="Cari Messi, Chou, OVR, Konami ID..."
+              className="w-full bg-transparent text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none font-medium"
             />
             {search && (
               <button
@@ -193,76 +319,70 @@ export function ListingsExplorer({ initialSearch = "" }: { initialSearch?: strin
                 className="text-slate-400 hover:text-slate-600 p-1"
                 title="Hapus kata kunci"
               >
-                <X size={15} />
+                <X size={14} />
               </button>
             )}
           </div>
 
           {/* Game Dropdown */}
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-1.5 px-3 py-2 bg-slate-50 rounded-xl border border-slate-200">
-              <Gamepad2 size={16} className="text-blue-600 shrink-0" />
-              <select
-                value={selectedGame}
-                onChange={(e) => setSelectedGame(e.target.value)}
-                className="bg-transparent text-xs sm:text-sm font-semibold text-slate-700 focus:outline-none cursor-pointer"
-              >
-                {GAME_TABS.map((tab) => (
-                  <option key={tab.id} value={tab.id}>
-                    {tab.label}
-                  </option>
-                ))}
-              </select>
-            </div>
+          <div className="flex items-center gap-1.5 px-3 py-2 bg-slate-50 rounded-xl border border-slate-200 shrink-0">
+            <Gamepad2 size={16} className="text-blue-600 shrink-0" />
+            <select
+              value={selectedGame}
+              onChange={(e) => setSelectedGame(e.target.value)}
+              className="bg-transparent text-xs sm:text-sm font-bold text-slate-800 focus:outline-none cursor-pointer"
+            >
+              {GAME_TABS.map((tab) => (
+                <option key={tab.id} value={tab.id}>
+                  {tab.label}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
 
-        {/* Quick Filter Chips (Paling Sering Dicari Gamer JB) */}
-        <div className="flex items-center gap-2 flex-wrap pt-3 border-t border-slate-100 text-xs">
-          <span className="font-semibold text-slate-500 flex items-center gap-1 text-[11px] uppercase tracking-wider">
-            <Flame size={12} className="text-amber-500" /> Filter Cepat JB:
+        {/* Quick Filter Chips — Horizontally Scrollable on Mobile for sleek native app feel */}
+        <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide py-1 flex-nowrap -mx-1 px-1 text-xs">
+          <span className="font-semibold text-slate-400 flex items-center gap-1 text-[10px] uppercase tracking-wider shrink-0">
+            <Flame size={12} className="text-amber-500" /> Filter Cepat:
           </span>
 
-          {/* Nominus chip */}
           <button
             onClick={() => setIsNominusOnly(!isNominusOnly)}
-            className={`px-3 py-1.5 rounded-lg font-semibold transition-all flex items-center gap-1.5 cursor-pointer ${
+            className={`px-3 py-1.5 rounded-lg font-semibold transition-all flex items-center gap-1.5 cursor-pointer shrink-0 whitespace-nowrap ${
               isNominusOnly
                 ? "bg-emerald-600 text-white shadow-xs"
                 : "bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200"
             }`}
           >
             <CheckCircle2 size={13} />
-            Nominus (Email Siap Ganti)
+            Nominus
           </button>
 
-          {/* Anti-Hackback Warranty chip */}
           <button
             onClick={() => setHasWarrantyOnly(!hasWarrantyOnly)}
-            className={`px-3 py-1.5 rounded-lg font-semibold transition-all flex items-center gap-1.5 cursor-pointer ${
+            className={`px-3 py-1.5 rounded-lg font-semibold transition-all flex items-center gap-1.5 cursor-pointer shrink-0 whitespace-nowrap ${
               hasWarrantyOnly
                 ? "bg-blue-600 text-white shadow-xs"
                 : "bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200"
             }`}
           >
             <ShieldCheck size={13} />
-            Garansi Anti-Hackback
+            Garansi Hackback
           </button>
 
-          {/* OVR 90+ chip */}
           <button
             onClick={() => setMinOvr(minOvr === "90" ? "all" : "90")}
-            className={`px-3 py-1.5 rounded-lg font-semibold transition-all flex items-center gap-1.5 cursor-pointer ${
+            className={`px-3 py-1.5 rounded-lg font-semibold transition-all flex items-center gap-1.5 cursor-pointer shrink-0 whitespace-nowrap ${
               minOvr === "90"
                 ? "bg-amber-500 text-slate-950 font-bold shadow-xs"
                 : "bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200"
             }`}
           >
             <Trophy size={13} />
-            OVR 90+ Squad Meta
+            OVR 90+
           </button>
 
-          {/* Budget < 350k chip */}
           <button
             onClick={() => {
               if (priceRange[1] === 350000) {
@@ -271,21 +391,21 @@ export function ListingsExplorer({ initialSearch = "" }: { initialSearch?: strin
                 setPriceRange([50000, 350000]);
               }
             }}
-            className={`px-3 py-1.5 rounded-lg font-semibold transition-all cursor-pointer ${
+            className={`px-3 py-1.5 rounded-lg font-semibold transition-all cursor-pointer shrink-0 whitespace-nowrap ${
               priceRange[1] === 350000
                 ? "bg-purple-600 text-white shadow-xs"
                 : "bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200"
             }`}
           >
-            Budget &lt; Rp 350.000
+            Budget &lt; 350k
           </button>
         </div>
       </div>
 
-      {/* 2. Main Layout: Sidebar Filter & Grid */}
+      {/* 2. Main Layout: Desktop Sidebar & Listings Grid */}
       <div className="grid lg:grid-cols-[270px_1fr] gap-8 items-start">
-        {/* Left Sidebar Filter */}
-        <aside className="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs sticky top-24 space-y-6">
+        {/* Left Sidebar Filter (DESKTOP ONLY — Hidden on Mobile for clean view) */}
+        <aside className="hidden lg:block bg-white rounded-2xl border border-slate-200 p-5 shadow-xs sticky top-24 space-y-6">
           <div className="flex items-center justify-between pb-3 border-b border-slate-100">
             <div className="flex items-center gap-2">
               <Filter size={16} className="text-blue-600" />
@@ -301,162 +421,44 @@ export function ListingsExplorer({ initialSearch = "" }: { initialSearch?: strin
             )}
           </div>
 
-          {/* Filter: Rentang Harga */}
-          <div>
-            <div className="flex items-center justify-between mb-2">
-              <label className="text-xs font-bold uppercase tracking-wider text-slate-700">
-                Budget / Harga
-              </label>
-            </div>
-            <Slider
-              value={priceRange}
-              min={50000}
-              max={3000000}
-              step={50000}
-              onValueChange={setPriceRange}
-            />
-            <div className="flex justify-between text-xs text-slate-600 mt-2 font-semibold">
-              <span>{formatRupiah(priceRange[0])}</span>
-              <span>{formatRupiah(priceRange[1])}</span>
-            </div>
-
-            {/* Quick Price Buttons */}
-            <div className="grid grid-cols-2 gap-1.5 mt-3">
-              {[
-                { label: "< 200rb", range: [50000, 200000] },
-                { label: "200k - 500k", range: [200000, 500000] },
-                { label: "500k - 1.5M", range: [500000, 1500000] },
-                { label: "> 1.5 Juta", range: [1500000, 3000000] },
-              ].map((p) => (
-                <button
-                  key={p.label}
-                  onClick={() => setPriceRange(p.range)}
-                  className={`text-[11px] py-1 px-2 rounded-md font-medium border text-center transition-colors cursor-pointer ${
-                    priceRange[0] === p.range[0] && priceRange[1] === p.range[1]
-                      ? "bg-blue-50 text-blue-700 border-blue-300 font-bold"
-                      : "bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100"
-                  }`}
-                >
-                  {p.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Filter: Keamanan Akun & Tautan (Paling Ditakuti Buyer JB) */}
-          <div className="pt-5 border-t border-slate-100">
-            <label className="text-xs font-bold uppercase tracking-wider text-slate-700 block mb-2.5">
-              Keamanan Akun
-            </label>
-            <div className="space-y-2">
-              <label className="flex items-center gap-2 text-xs text-slate-700 cursor-pointer font-medium hover:text-slate-900">
-                <Checkbox
-                  checked={isNominusOnly}
-                  onCheckedChange={(v) => setIsNominusOnly(v === true)}
-                />
-                <span>Hanya Nominus (Email Bersih)</span>
-              </label>
-
-              <label className="flex items-center gap-2 text-xs text-slate-700 cursor-pointer font-medium hover:text-slate-900">
-                <Checkbox
-                  checked={hasWarrantyOnly}
-                  onCheckedChange={(v) => setHasWarrantyOnly(v === true)}
-                />
-                <span>Garansi Anti-Hackback</span>
-              </label>
-            </div>
-          </div>
-
-          {/* Filter: Tipe Login Akun */}
-          <div className="pt-5 border-t border-slate-100">
-            <label className="text-xs font-bold uppercase tracking-wider text-slate-700 block mb-2.5">
-              Metode Login
-            </label>
-            <select
-              value={selectedLoginMethod}
-              onChange={(e) => setSelectedLoginMethod(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs font-medium text-slate-700 focus:outline-none focus:border-blue-500 cursor-pointer"
-            >
-              <option value="all">Semua Tipe Login</option>
-              <option value="Konami ID">Konami ID (Single Login)</option>
-              <option value="Moonton">Moonton (All Unbind)</option>
-              <option value="EA Account">EA Account / FC Mobile</option>
-            </select>
-          </div>
-
-          {/* Filter: Minimal OVR Squad */}
-          <div className="pt-5 border-t border-slate-100">
-            <label className="text-xs font-bold uppercase tracking-wider text-slate-700 block mb-2.5">
-              Tingkat OVR / Squad
-            </label>
-            <RadioGroup value={minOvr} onValueChange={setMinOvr} className="space-y-2">
-              {[
-                { value: "all", label: "Semua OVR" },
-                { value: "90", label: "OVR 90+ (Full Legend/Meta)" },
-                { value: "85", label: "OVR 85+ (Divisi Tinggi)" },
-                { value: "80", label: "OVR 80+ (Kompetitif)" },
-              ].map((item) => (
-                <label key={item.value} className="flex items-center gap-2 text-xs text-slate-700 cursor-pointer font-medium hover:text-slate-900">
-                  <RadioItem value={item.value} />
-                  <span>{item.label}</span>
-                </label>
-              ))}
-            </RadioGroup>
-          </div>
-
-          {/* Filter: Status Ketersediaan */}
-          <div className="pt-5 border-t border-slate-100">
-            <label className="text-xs font-bold uppercase tracking-wider text-slate-700 block mb-2.5">
-              Status Listing
-            </label>
-            <RadioGroup value={statusFilter} onValueChange={setStatusFilter} className="space-y-2">
-              {[
-                { value: "AVAILABLE", label: "Tersedia Saja (Ready)" },
-                { value: "ALL", label: "Semua (Termasuk Terjual)" },
-              ].map((item) => (
-                <label key={item.value} className="flex items-center gap-2 text-xs text-slate-700 cursor-pointer font-medium hover:text-slate-900">
-                  <RadioItem value={item.value} />
-                  <span>{item.label}</span>
-                </label>
-              ))}
-            </RadioGroup>
-          </div>
+          {renderFilterFields()}
         </aside>
 
         {/* Right Content: Sort Toolbar, Active Filter Chips, Listings Grid */}
         <div>
           {/* Toolbar */}
-          <div className="bg-white rounded-xl border border-slate-200 p-3.5 shadow-xs mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div className="text-xs sm:text-sm text-slate-600 font-medium">
-              Menemukan <strong className="text-slate-900 font-bold">{filteredListings.length}</strong> akun game siap transaksi
+          <div className="bg-white rounded-xl border border-slate-200 p-3 sm:p-3.5 shadow-xs mb-4 flex items-center justify-between gap-2">
+            <div className="text-xs sm:text-sm text-slate-600 font-medium truncate">
+              Menemukan <strong className="text-slate-900 font-bold">{filteredListings.length}</strong> akun
             </div>
 
-            <div className="flex items-center gap-2 self-end sm:self-auto">
-              <span className="text-xs text-slate-500 font-medium flex items-center gap-1">
+            {/* Sort Dropdown (Desktop & Tablet) */}
+            <div className="flex items-center gap-1.5">
+              <span className="hidden sm:flex text-xs text-slate-500 font-medium items-center gap-1">
                 <ArrowUpDown size={12} /> Urutkan:
               </span>
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs text-slate-700 font-semibold focus:outline-none focus:border-blue-500 cursor-pointer"
+                className="bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 font-bold focus:outline-none focus:border-blue-500 cursor-pointer"
               >
-                <option value="latest">Terbaru Ditambahkan</option>
-                <option value="ovr_desc">OVR Tertinggi</option>
-                <option value="price_asc">Harga: Termurah</option>
-                <option value="price_desc">Harga: Termahal</option>
-                <option value="rating_desc">Rating Penjual Tertinggi</option>
+                {SORT_OPTIONS.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
 
           {/* Active Filter Pills Bar */}
           {hasActiveFilters && (
-            <div className="flex items-center gap-2 flex-wrap mb-5 text-xs">
-              <span className="text-slate-400 text-[11px] font-medium">Filter Aktif:</span>
+            <div className="flex items-center gap-1.5 flex-wrap mb-4 text-xs">
+              <span className="text-slate-400 text-[11px] font-medium">Aktif:</span>
 
               {search && (
-                <span className="inline-flex items-center gap-1 bg-blue-50 text-blue-700 px-2.5 py-1 rounded-full border border-blue-200 font-medium">
-                  Cari: &quot;{search}&quot;
+                <span className="inline-flex items-center gap-1 bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full border border-blue-200 font-medium text-[11px]">
+                  &quot;{search}&quot;
                   <button onClick={() => setSearch("")} className="hover:text-blue-900">
                     <X size={12} />
                   </button>
@@ -464,8 +466,8 @@ export function ListingsExplorer({ initialSearch = "" }: { initialSearch?: strin
               )}
 
               {selectedGame !== "all" && (
-                <span className="inline-flex items-center gap-1 bg-blue-50 text-blue-700 px-2.5 py-1 rounded-full border border-blue-200 font-medium">
-                  Game: {selectedGame}
+                <span className="inline-flex items-center gap-1 bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full border border-blue-200 font-medium text-[11px]">
+                  {selectedGame}
                   <button onClick={() => setSelectedGame("all")} className="hover:text-blue-900">
                     <X size={12} />
                   </button>
@@ -473,8 +475,8 @@ export function ListingsExplorer({ initialSearch = "" }: { initialSearch?: strin
               )}
 
               {isNominusOnly && (
-                <span className="inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-full border border-emerald-200 font-medium">
-                  Hanya Nominus
+                <span className="inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full border border-emerald-200 font-medium text-[11px]">
+                  Nominus
                   <button onClick={() => setIsNominusOnly(false)} className="hover:text-emerald-900">
                     <X size={12} />
                   </button>
@@ -482,8 +484,8 @@ export function ListingsExplorer({ initialSearch = "" }: { initialSearch?: strin
               )}
 
               {hasWarrantyOnly && (
-                <span className="inline-flex items-center gap-1 bg-blue-50 text-blue-700 px-2.5 py-1 rounded-full border border-blue-200 font-medium">
-                  Garansi Anti-Hackback
+                <span className="inline-flex items-center gap-1 bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full border border-blue-200 font-medium text-[11px]">
+                  Garansi
                   <button onClick={() => setHasWarrantyOnly(false)} className="hover:text-blue-900">
                     <X size={12} />
                   </button>
@@ -491,7 +493,7 @@ export function ListingsExplorer({ initialSearch = "" }: { initialSearch?: strin
               )}
 
               {minOvr !== "all" && (
-                <span className="inline-flex items-center gap-1 bg-amber-50 text-amber-800 px-2.5 py-1 rounded-full border border-amber-200 font-medium">
+                <span className="inline-flex items-center gap-1 bg-amber-50 text-amber-800 px-2 py-0.5 rounded-full border border-amber-200 font-medium text-[11px]">
                   OVR {minOvr}+
                   <button onClick={() => setMinOvr("all")} className="hover:text-amber-950">
                     <X size={12} />
@@ -500,8 +502,8 @@ export function ListingsExplorer({ initialSearch = "" }: { initialSearch?: strin
               )}
 
               {selectedLoginMethod !== "all" && (
-                <span className="inline-flex items-center gap-1 bg-slate-100 text-slate-700 px-2.5 py-1 rounded-full border border-slate-200 font-medium">
-                  Login: {selectedLoginMethod}
+                <span className="inline-flex items-center gap-1 bg-slate-100 text-slate-700 px-2 py-0.5 rounded-full border border-slate-200 font-medium text-[11px]">
+                  {selectedLoginMethod}
                   <button onClick={() => setSelectedLoginMethod("all")} className="hover:text-slate-900">
                     <X size={12} />
                   </button>
@@ -509,7 +511,7 @@ export function ListingsExplorer({ initialSearch = "" }: { initialSearch?: strin
               )}
 
               {(priceRange[0] !== 50000 || priceRange[1] !== 3000000) && (
-                <span className="inline-flex items-center gap-1 bg-slate-100 text-slate-700 px-2.5 py-1 rounded-full border border-slate-200 font-medium">
+                <span className="inline-flex items-center gap-1 bg-slate-100 text-slate-700 px-2 py-0.5 rounded-full border border-slate-200 font-medium text-[11px]">
                   {formatRupiah(priceRange[0])} - {formatRupiah(priceRange[1])}
                   <button onClick={() => setPriceRange([50000, 3000000])} className="hover:text-slate-900">
                     <X size={12} />
@@ -519,31 +521,31 @@ export function ListingsExplorer({ initialSearch = "" }: { initialSearch?: strin
 
               <button
                 onClick={resetFilters}
-                className="text-xs text-red-600 hover:text-red-700 font-semibold underline ml-1 cursor-pointer"
+                className="text-[11px] text-red-600 hover:text-red-700 font-bold underline ml-1 cursor-pointer"
               >
-                Hapus Semua
+                Reset
               </button>
             </div>
           )}
 
           {/* Listings Cards Grid */}
           {filteredListings.length > 0 ? (
-            <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-5">
               {filteredListings.map((l) => (
                 <ListingCard key={l.id} listing={l} />
               ))}
             </div>
           ) : (
             /* Empty State */
-            <div className="bg-white rounded-2xl border border-slate-200 p-12 text-center shadow-xs">
-              <div className="h-16 w-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-blue-100">
-                <AlertCircle size={32} />
+            <div className="bg-white rounded-2xl border border-slate-200 p-8 sm:p-12 text-center shadow-xs">
+              <div className="h-14 w-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-blue-100">
+                <AlertCircle size={28} />
               </div>
-              <h3 className="text-lg font-bold text-slate-900 mb-2">
+              <h3 className="text-base sm:text-lg font-bold text-slate-900 mb-1.5">
                 Tidak Ada Akun yang Cocok
               </h3>
-              <p className="text-sm text-slate-500 max-w-md mx-auto mb-6">
-                Tidak ditemukan akun dengan kombinasi filter saat ini. Coba perlebar rentang harga, turunkan filter OVR, atau bersihkan kata kunci pencarian.
+              <p className="text-xs sm:text-sm text-slate-500 max-w-md mx-auto mb-5">
+                Tidak ditemukan akun dengan filter saat ini. Coba perlebar rentang harga atau reset filter.
               </p>
               <button
                 onClick={resetFilters}
@@ -555,6 +557,136 @@ export function ListingsExplorer({ initialSearch = "" }: { initialSearch?: strin
           )}
         </div>
       </div>
+
+      {/* 3. MOBILE FLOATING STICKY ACTION BAR (HP ONLY — App-like UI) */}
+      <div className="lg:hidden fixed bottom-4 left-4 right-4 z-40 flex items-center gap-2 p-2 rounded-2xl bg-slate-900/90 text-white backdrop-blur-lg border border-white/15 shadow-2xl">
+        {/* Mobile Filter Button */}
+        <button
+          onClick={() => setIsMobileFilterOpen(true)}
+          className="flex-1 py-2.5 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 font-bold text-xs text-white flex items-center justify-center gap-2 shadow-md transition-all active:scale-95 cursor-pointer"
+        >
+          <SlidersHorizontal size={15} />
+          <span>Filter</span>
+          {activeFilterCount > 0 && (
+            <span className="h-5 w-5 rounded-full bg-white text-blue-700 text-[10px] font-black flex items-center justify-center">
+              {activeFilterCount}
+            </span>
+          )}
+        </button>
+
+        {/* Mobile Quick Sort Button */}
+        <button
+          onClick={() => setIsMobileSortOpen(true)}
+          className="py-2.5 px-4 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs flex items-center justify-center gap-1.5 border border-white/10 transition-all active:scale-95 cursor-pointer"
+        >
+          <ArrowUpDown size={14} />
+          <span>Urutkan</span>
+        </button>
+      </div>
+
+      {/* 4. MOBILE FILTER BOTTOM SHEET MODAL (HP ONLY) */}
+      {isMobileFilterOpen && (
+        <div className="lg:hidden fixed inset-0 z-50 flex flex-col justify-end bg-black/60 backdrop-blur-xs animate-in fade-in duration-200">
+          <div
+            className="fixed inset-0"
+            onClick={() => setIsMobileFilterOpen(false)}
+          />
+
+          <div className="relative bg-white rounded-t-3xl max-h-[85vh] w-full flex flex-col shadow-2xl border-t border-slate-200 overflow-hidden z-10 animate-in slide-in-from-bottom duration-300">
+            {/* Modal Handle Bar */}
+            <div className="w-12 h-1.5 bg-slate-300 rounded-full mx-auto my-3 shrink-0" />
+
+            {/* Modal Header */}
+            <div className="px-5 pb-3 flex items-center justify-between border-b border-slate-100 shrink-0">
+              <div>
+                <h3 className="text-base font-extrabold text-slate-900 flex items-center gap-2">
+                  <Filter size={18} className="text-blue-600" /> Filter Akun Game
+                </h3>
+                <p className="text-[11px] font-medium text-slate-500">
+                  Ditemukan {filteredListings.length} akun sesuai kriteria
+                </p>
+              </div>
+              <div className="flex items-center gap-3">
+                {hasActiveFilters && (
+                  <button
+                    onClick={resetFilters}
+                    className="text-xs font-semibold text-blue-600 hover:text-blue-800"
+                  >
+                    Reset
+                  </button>
+                )}
+                <button
+                  onClick={() => setIsMobileFilterOpen(false)}
+                  className="p-1 rounded-full text-slate-400 hover:bg-slate-100 hover:text-slate-700"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+            </div>
+
+            {/* Modal Body (Scrollable) */}
+            <div className="p-5 overflow-y-auto flex-1 space-y-6">
+              {renderFilterFields()}
+            </div>
+
+            {/* Modal Footer (Sticky Button) */}
+            <div className="p-4 bg-white border-t border-slate-100 shrink-0">
+              <button
+                onClick={() => setIsMobileFilterOpen(false)}
+                className="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm rounded-xl shadow-md transition-all active:scale-98 flex items-center justify-center gap-2 cursor-pointer uppercase tracking-wider"
+              >
+                TAMPILKAN {filteredListings.length} AKUN
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 5. MOBILE SORT BOTTOM SHEET MODAL (HP ONLY) */}
+      {isMobileSortOpen && (
+        <div className="lg:hidden fixed inset-0 z-50 flex flex-col justify-end bg-black/60 backdrop-blur-xs animate-in fade-in duration-200">
+          <div
+            className="fixed inset-0"
+            onClick={() => setIsMobileSortOpen(false)}
+          />
+
+          <div className="relative bg-white rounded-t-3xl w-full flex flex-col shadow-2xl border-t border-slate-200 overflow-hidden z-10 animate-in slide-in-from-bottom duration-300">
+            <div className="w-12 h-1.5 bg-slate-300 rounded-full mx-auto my-3 shrink-0" />
+
+            <div className="px-5 pb-3 flex items-center justify-between border-b border-slate-100">
+              <h3 className="text-base font-extrabold text-slate-900 flex items-center gap-2">
+                <ArrowUpDown size={18} className="text-blue-600" /> Urutkan Akun
+              </h3>
+              <button
+                onClick={() => setIsMobileSortOpen(false)}
+                className="p-1 rounded-full text-slate-400 hover:bg-slate-100"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            <div className="p-4 space-y-1">
+              {SORT_OPTIONS.map((opt) => (
+                <button
+                  key={opt.value}
+                  onClick={() => {
+                    setSortBy(opt.value);
+                    setIsMobileSortOpen(false);
+                  }}
+                  className={`w-full py-3 px-4 rounded-xl text-xs font-bold flex items-center justify-between transition-colors cursor-pointer ${
+                    sortBy === opt.value
+                      ? "bg-blue-50 text-blue-700 border border-blue-200"
+                      : "hover:bg-slate-50 text-slate-700"
+                  }`}
+                >
+                  <span>{opt.label}</span>
+                  {sortBy === opt.value && <Check size={16} className="text-blue-600" />}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

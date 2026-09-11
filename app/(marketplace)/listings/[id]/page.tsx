@@ -15,10 +15,10 @@ export default function ListingDetailPage({ params }: { params: { id: string } }
   if (!listing) return notFound();
 
   return (
-    <div className="bg-slate-50 min-h-screen py-8">
+    <div className="bg-slate-50 min-h-screen py-6 sm:py-8 pb-20 lg:pb-8">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         {/* Breadcrumb navigation */}
-        <div className="flex items-center gap-2 text-xs font-semibold text-blue-600 mb-6">
+        <div className="flex items-center gap-2 text-xs font-semibold text-blue-600 mb-4 sm:mb-6">
           <DetailBackButton />
           <span className="text-slate-300">/</span>
           <span className="text-slate-600 truncate max-w-xs">{listing.title}</span>
@@ -28,7 +28,7 @@ export default function ListingDetailPage({ params }: { params: { id: string } }
           {/* Main Account Details Column */}
           <div className="space-y-6">
             {/* Header Showcase Card */}
-            <div className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-xs">
+            <div className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-8 shadow-xs">
               <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
                 <div className="flex items-center gap-2">
                   <span className="text-xs font-bold px-2.5 py-1 rounded bg-blue-50 text-blue-700 border border-blue-200">
@@ -40,52 +40,52 @@ export default function ListingDetailPage({ params }: { params: { id: string } }
                 </div>
                 <span className="text-xs font-bold px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1.5">
                   <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-                  {listing.status === "AVAILABLE" ? "Akun Ready (Tersedia)" : "Terjual"}
+                  {listing.status === "AVAILABLE" ? "Akun Ready" : "Terjual"}
                 </span>
               </div>
 
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-3 leading-tight">
+              <h1 className="text-xl sm:text-3xl font-extrabold text-slate-900 mb-3 leading-tight">
                 {listing.title}
               </h1>
 
-              <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-6">
+              <p className="text-slate-600 text-xs sm:text-base leading-relaxed mb-6">
                 {listing.description}
               </p>
 
               {/* 4 Stats Grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 border-t border-slate-100">
-                <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-3.5 text-left">
-                  <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 pt-5 border-t border-slate-100">
+                <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-3 text-left">
+                  <span className="text-[10px] sm:text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
                     Rating OVR
                   </span>
-                  <span className="text-2xl font-black text-slate-900 mt-0.5 block">
+                  <span className="text-xl sm:text-2xl font-black text-slate-900 mt-0.5 block">
                     {listing.details.overall}
                   </span>
                 </div>
 
-                <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-3.5 text-left">
-                  <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
+                <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-3 text-left">
+                  <span className="text-[10px] sm:text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
                     Divisi Liga
                   </span>
-                  <span className="text-lg font-bold text-slate-900 mt-1 block truncate">
+                  <span className="text-base sm:text-lg font-bold text-slate-900 mt-1 block truncate">
                     {listing.details.league}
                   </span>
                 </div>
 
-                <div className="bg-amber-50/60 border border-amber-200/80 rounded-xl p-3.5 text-left">
-                  <span className="text-[11px] font-semibold text-amber-700 uppercase tracking-wider block">
+                <div className="bg-amber-50/60 border border-amber-200/80 rounded-xl p-3 text-left">
+                  <span className="text-[10px] sm:text-[11px] font-semibold text-amber-700 uppercase tracking-wider block">
                     Koin Aktif
                   </span>
-                  <span className="text-lg font-bold text-amber-800 mt-1 block">
+                  <span className="text-base sm:text-lg font-bold text-amber-800 mt-1 block">
                     {listing.details.coins.toLocaleString("id-ID")}
                   </span>
                 </div>
 
-                <div className="bg-blue-50/60 border border-blue-200/80 rounded-xl p-3.5 text-left">
-                  <span className="text-[11px] font-semibold text-blue-700 uppercase tracking-wider block">
+                <div className="bg-blue-50/60 border border-blue-200/80 rounded-xl p-3 text-left">
+                  <span className="text-[10px] sm:text-[11px] font-semibold text-blue-700 uppercase tracking-wider block">
                     Total GP
                   </span>
-                  <span className="text-lg font-bold text-blue-800 mt-1 block">
+                  <span className="text-base sm:text-lg font-bold text-blue-800 mt-1 block">
                     {listing.details.gp.toLocaleString("id-ID")}
                   </span>
                 </div>
@@ -93,8 +93,8 @@ export default function ListingDetailPage({ params }: { params: { id: string } }
             </div>
 
             {/* Featured Players & Assets */}
-            <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-xs">
-              <h2 className="text-base font-bold text-slate-900 mb-4 flex items-center gap-2">
+            <div className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-xs">
+              <h2 className="text-sm sm:text-base font-bold text-slate-900 mb-4 flex items-center gap-2">
                 <Sparkles size={18} className="text-blue-600" /> Daftar Pemain Kunci & Aset
               </h2>
 
@@ -102,14 +102,14 @@ export default function ListingDetailPage({ params }: { params: { id: string } }
                 {listing.details.players.map((p) => (
                   <span
                     key={p}
-                    className="px-3 py-1.5 rounded-lg bg-blue-50 border border-blue-100 text-blue-800 text-xs font-semibold"
+                    className="px-2.5 py-1 rounded-lg bg-blue-50 border border-blue-100 text-blue-800 text-xs font-semibold"
                   >
                     ⭐ {p}
                   </span>
                 ))}
               </div>
 
-              <div className="bg-slate-50 rounded-xl border border-slate-200 p-4">
+              <div className="bg-slate-50 rounded-xl border border-slate-200 p-3.5 sm:p-4">
                 <div className="flex items-center gap-2 text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
                   <Info size={14} className="text-blue-600" /> Catatan Keamanan dari Penjual:
                 </div>
@@ -120,8 +120,8 @@ export default function ListingDetailPage({ params }: { params: { id: string } }
             </div>
 
             {/* Customer Reviews Section */}
-            <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-xs">
-              <h2 className="text-base font-bold text-slate-900 mb-5 flex items-center gap-2">
+            <div className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-xs">
+              <h2 className="text-sm sm:text-base font-bold text-slate-900 mb-5 flex items-center gap-2">
                 <Star size={18} className="text-amber-500 fill-amber-500" /> Ulasan Pembeli Sebelumnya
               </h2>
 
@@ -150,8 +150,8 @@ export default function ListingDetailPage({ params }: { params: { id: string } }
             </div>
           </div>
 
-          {/* Right Sticky Buy Panel */}
-          <div className="space-y-5 sticky top-24">
+          {/* Right Sticky Buy Panel (DESKTOP) */}
+          <div className="space-y-5 lg:sticky top-24">
             <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
               <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">
                 Harga Akun
@@ -214,6 +214,20 @@ export default function ListingDetailPage({ params }: { params: { id: string } }
           </div>
         </div>
       </div>
+
+      {/* MOBILE FLOATING STICKY BUY ACTION BAR (HP ONLY) */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 p-3 shadow-2xl flex items-center justify-between gap-3">
+        <div>
+          <span className="text-[10px] font-bold text-slate-400 block uppercase">Harga Akun</span>
+          <span className="text-lg font-black text-blue-600 tracking-tight">
+            {formatRupiah(listing.price)}
+          </span>
+        </div>
+        <div className="w-48">
+          <BuyPanel listingId={listing.id} />
+        </div>
+      </div>
     </div>
+
   );
 }
