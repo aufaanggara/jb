@@ -25,6 +25,7 @@ model User {
   transactionsAsAdmin  Transaction[] @relation("AdminTransactions")
   reviewsGiven         Review[]      @relation("ReviewGiver")
   reviewsReceived      Review[]      @relation("ReviewReceiver")
+  chatMessages         ChatMessage[]
 }
 
 enum Role {
@@ -94,6 +95,7 @@ model Transaction {
   updatedAt   DateTime          @updatedAt
 
   reviews Review[]
+  chatMessages ChatMessage[]
 }
 
 enum TransactionStatus {
@@ -124,4 +126,14 @@ enum ReviewType {
   BUYER_TO_SELLER
   BUYER_TO_ADMIN
   SELLER_TO_ADMIN
+}
+
+model ChatMessage {
+  id            String      @id @default(cuid())
+  transactionId String
+  transaction   Transaction @relation(fields: [transactionId], references: [id])
+  senderId      String
+  sender        User        @relation(fields: [senderId], references: [id])
+  message       String
+  createdAt     DateTime    @default(now())
 }

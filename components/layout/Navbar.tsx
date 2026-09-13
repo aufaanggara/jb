@@ -1,10 +1,11 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
-import { ShieldCheck, Menu, X, PlusCircle, ChevronRight, Gamepad2 } from "lucide-react";
+import { ShieldCheck, Menu, X, PlusCircle, ChevronRight, MessageSquare, User, LayoutDashboard, Store } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 
 const links = [
+  { href: "/", label: "Beranda" },
   { href: "/listings", label: "Cari Akun" },
   { href: "/rekber", label: "Admin Rekber" },
   { href: "/tentang-kami", label: "Tentang Kami" },
@@ -12,6 +13,7 @@ const links = [
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
+  const [dashboardDropdown, setDashboardDropdown] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
@@ -37,7 +39,7 @@ export function Navbar() {
         </Link>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden lg:flex items-center gap-7 text-sm font-medium text-slate-600">
+        <nav className="hidden lg:flex items-center gap-6 text-sm font-medium text-slate-600">
           {links.map((l) => (
             <Link
               key={l.href}
@@ -51,6 +53,59 @@ export function Navbar() {
 
         {/* Action Buttons */}
         <div className="hidden sm:flex items-center gap-3">
+          {/* Quick link to Transactions & Live Chat */}
+          <Link href="/buyer/transactions">
+            <button className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50 hover:bg-blue-50 hover:border-blue-200 text-xs font-semibold text-slate-700 hover:text-blue-700 transition-all cursor-pointer">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+              </span>
+              <MessageSquare size={13} className="text-blue-600" />
+              <span>Transaksi & Chat</span>
+            </button>
+          </Link>
+
+          {/* Quick Dashboard Dropdown Menu */}
+          <div className="relative">
+            <button
+              onClick={() => setDashboardDropdown(!dashboardDropdown)}
+              onBlur={() => setTimeout(() => setDashboardDropdown(false), 200)}
+              className="flex items-center gap-1.5 text-xs font-semibold text-slate-700 hover:text-blue-600 px-2.5 py-1.5 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer"
+            >
+              <LayoutDashboard size={14} className="text-slate-500" />
+              <span>Dashboard</span>
+              <span className="text-[10px] text-slate-400">▾</span>
+            </button>
+
+            {dashboardDropdown && (
+              <div className="absolute right-0 mt-2 w-48 bg-white border border-slate-200 rounded-xl shadow-xl py-1.5 z-50 text-xs">
+                <div className="px-3 py-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                  Pilih Tampilan:
+                </div>
+                <Link
+                  href="/buyer"
+                  className="flex items-center gap-2 px-3 py-2 hover:bg-slate-50 text-slate-700 hover:text-blue-600 font-medium"
+                >
+                  <User size={13} className="text-blue-500" /> Dashboard Pembeli
+                </Link>
+                <Link
+                  href="/seller"
+                  className="flex items-center gap-2 px-3 py-2 hover:bg-slate-50 text-slate-700 hover:text-emerald-600 font-medium"
+                >
+                  <Store size={13} className="text-emerald-500" /> Dashboard Penjual
+                </Link>
+                <Link
+                  href="/admin"
+                  className="flex items-center gap-2 px-3 py-2 hover:bg-slate-50 text-slate-700 hover:text-amber-600 font-medium"
+                >
+                  <ShieldCheck size={13} className="text-amber-500" /> Dashboard Admin Rekber
+                </Link>
+              </div>
+            )}
+          </div>
+
+          <div className="h-4 w-px bg-slate-200" />
+
           <Link href="/listings/new">
             <Button
               variant="secondary"
@@ -59,17 +114,6 @@ export function Navbar() {
             >
               <PlusCircle size={15} className="text-blue-600" />
               Pasang Iklan
-            </Button>
-          </Link>
-          <div className="h-4 w-px bg-slate-200" />
-          <Link href="/login">
-            <Button variant="ghost" size="sm" className="text-xs text-slate-700 font-semibold hover:text-blue-600">
-              Masuk
-            </Button>
-          </Link>
-          <Link href="/register">
-            <Button variant="primary" size="sm" className="text-xs font-semibold bg-blue-600 hover:bg-blue-700 text-white">
-              Daftar Gratis
             </Button>
           </Link>
         </div>
@@ -99,6 +143,28 @@ export function Navbar() {
                 <ChevronRight size={16} className="text-slate-400" />
               </Link>
             ))}
+          </div>
+
+          <div className="pt-3 border-t border-slate-100 space-y-2">
+            <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider px-1">
+              Menu Dashboard & Chat:
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <Link
+                href="/buyer/transactions"
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-1.5 p-2 rounded-lg bg-blue-50 text-blue-700 text-xs font-semibold"
+              >
+                <MessageSquare size={13} /> Chat & Transaksi
+              </Link>
+              <Link
+                href="/seller"
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-1.5 p-2 rounded-lg bg-emerald-50 text-emerald-700 text-xs font-semibold"
+              >
+                <Store size={13} /> Toko Penjual
+              </Link>
+            </div>
           </div>
 
           <div className="pt-3 border-t border-slate-100 flex flex-col gap-2">

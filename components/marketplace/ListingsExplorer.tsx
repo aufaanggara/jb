@@ -1,6 +1,6 @@
 "use client";
 import { useState, useMemo } from "react";
-import { dummyListings } from "@/data/dummy";
+import { useStore } from "@/store/useStore";
 import { ListingCard } from "@/components/marketplace/ListingCard";
 import {
   Search,
@@ -39,6 +39,8 @@ const SORT_OPTIONS = [
 ];
 
 export function ListingsExplorer({ initialSearch = "" }: { initialSearch?: string }) {
+  const { listings } = useStore();
+
   // State
   const [search, setSearch] = useState(initialSearch);
   const [selectedGame, setSelectedGame] = useState("all");
@@ -57,7 +59,7 @@ export function ListingsExplorer({ initialSearch = "" }: { initialSearch?: strin
 
   // Filter logic
   const filteredListings = useMemo(() => {
-    return dummyListings.filter((l) => {
+    return listings.filter((l) => {
       // 1. Game filter
       if (selectedGame !== "all" && l.game.toLowerCase() !== selectedGame.toLowerCase()) {
         return false;

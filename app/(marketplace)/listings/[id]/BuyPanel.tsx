@@ -1,19 +1,29 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { ShieldCheck, X, Check, Clock } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { dummyAdmins } from "@/data/dummy";
+import { dummyAdmins, dummyTransactions } from "@/data/dummy";
 import { formatRupiah } from "@/lib/utils";
 import { toast } from "sonner";
 
 export function BuyPanel({ listingId }: { listingId: string }) {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
 
   function confirm() {
-    toast.success("Pesanan dibuat! Menghubungkan ke Admin Rekber pilihanmu...");
+    toast.success("Pesanan dibuat! Menghubungkan ke Room Chat Rekber...");
     setOpen(false);
+
+    // Find transaction for this listing or fallback to trx_4 / trx_1
+    const tx = dummyTransactions.find((t) => t.listing.id === listingId);
+    const targetId = tx ? tx.id : "trx_4";
+
+    setTimeout(() => {
+      router.push(`/buyer/transactions/${targetId}`);
+    }, 600);
   }
 
   return (

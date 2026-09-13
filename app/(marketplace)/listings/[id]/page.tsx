@@ -1,18 +1,50 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { notFound } from "next/navigation";
 import { Star, ShieldCheck, Sparkles, Trophy, Coins, Wallet, CheckCircle2, Lock, ArrowLeft, MessageCircle, Info } from "lucide-react";
 import Link from "next/link";
-import { dummyListings, dummyReviews } from "@/data/dummy";
+import { dummyListings, dummyReviews, dummyTransactions } from "@/data/dummy";
+import { useStore } from "@/store/useStore";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { Avatar } from "@/components/ui/Avatar";
 import { formatRupiah, waLink } from "@/lib/utils";
 import { BuyPanel } from "./BuyPanel";
+import { ImageGallery } from "./ImageGallery";
+import { ListingChatLauncher } from "@/components/marketplace/ListingChatLauncher";
+import { ShareListingButton } from "@/components/marketplace/ShareListingButton";
 
 import { DetailBackButton } from "@/components/marketplace/DetailBackButton";
 
 export default function ListingDetailPage({ params }: { params: { id: string } }) {
-  const listing = dummyListings.find((l) => l.id === params.id);
-  if (!listing) return notFound();
+  const { listings } = useStore();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const listing =
+    listings.find((l) => l.id === params.id) ||
+    dummyListings.find((l) => l.id === params.id);
+
+  if (!listing) {
+    if (!mounted) {
+      return (
+        <div className="bg-slate-50 min-h-screen py-24 flex items-center justify-center">
+          <div className="text-center">
+            <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+            <p className="text-sm font-semibold text-slate-600">Memuat detail akun...</p>
+          </div>
+        </div>
+      );
+    }
+    return notFound();
+  }
+
+  const matchedTx = dummyTransactions.find((t) => t.listing.id === listing.id);
+  const transactionId = matchedTx ? matchedTx.id : "trx_4";
 
   return (
     <div className="bg-slate-50 min-h-screen py-6 sm:py-8 pb-20 lg:pb-8">
@@ -27,6 +59,9 @@ export default function ListingDetailPage({ params }: { params: { id: string } }
         <div className="grid lg:grid-cols-[1fr_360px] gap-8 items-start">
           {/* Main Account Details Column */}
           <div className="space-y-6">
+            {/* Account Screenshot Gallery */}
+            <ImageGallery images={listing.images} title={listing.title} />
+
             {/* Header Showcase Card */}
             <div className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-8 shadow-xs">
               <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
@@ -161,8 +196,17 @@ export default function ListingDetailPage({ params }: { params: { id: string } }
               </div>
 
               {/* Action Button: Beli Sekarang */}
-              <div className="mb-4">
+              <div className="mb-3">
                 <BuyPanel listingId={listing.id} />
+              </div>
+
+              {/* Action Button: Room Chat Rekber (3 Arah Real-time) */}
+              <div className="mb-3">
+                <ListingChatLauncher
+                  transactionId={transactionId}
+                  listingTitle={listing.title}
+                  sellerName={listing.seller.username}
+                />
               </div>
 
               {/* Chat Seller */}
@@ -209,6 +253,11 @@ export default function ListingDetailPage({ params }: { params: { id: string } }
                   <li>Panduan ganti email & 2FA aman</li>
                   <li>Refund 100% jika data akun tidak sesuai</li>
                 </ul>
+              </div>
+
+              {/* Share Listing Button */}
+              <div className="mt-4">
+                <ShareListingButton title={listing.title} price={listing.price} />
               </div>
             </div>
           </div>

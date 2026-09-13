@@ -1,0 +1,168 @@
+"use client";
+
+import Link from "next/link";
+import { ArrowLeft, ShieldCheck, User, Wallet, CheckCircle2, AlertCircle } from "lucide-react";
+import { DashboardSidebar } from "@/components/layout/DashboardSidebar";
+import { Card } from "@/components/ui/Card";
+import { StatusBadge } from "@/components/dashboard/StatusBadge";
+import { TransactionTimeline } from "@/components/dashboard/TransactionTimeline";
+import { TransactionChat } from "@/components/dashboard/TransactionChat";
+import { AccountVaultPanel } from "@/components/dashboard/AccountVaultPanel";
+import { Avatar } from "@/components/ui/Avatar";
+import { useStore } from "@/store/useStore";
+import { formatRupiah } from "@/lib/utils";
+import type { Transaction } from "@/types";
+
+export function SellerTransactionView({ initialTransaction }: { initialTransaction: Transaction }) {
+  const { getTransaction } = useStore();
+  const tx = getTransaction(initialTransaction.id) || initialTransaction;
+
+  return (
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 py-10 flex flex-col lg:flex-row gap-8">
+      <DashboardSidebar role="seller" />
+      <div className="flex-1 space-y-6">
+        {/* Top Header */}
+        <div>
+          <Link
+            href="/seller/transactions"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-600 hover:text-emerald-700 mb-2"
+          >
+            <ArrowLeft size={14} /> Kembali ke Transaksi Penjualan
+          </Link>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h1 className="font-display text-2xl font-bold">Transaksi #{tx.id.slice(-4)}</h1>
+              <p className="text-txt-muted text-xs sm:text-sm">
+                Dibuat pada {new Date(tx.createdAt).toLocaleString("id-ID")}
+              </p>
+            </div>
+            <StatusBadge status={tx.status} />
+          </div>
+        </div>
+
+        {/* 3 Column Grid */}
+        <div className="grid lg:grid-cols-3 gap-6">
+          {/* Card 1: Penerimaan Dana */}
+          <Card>
+            <h3 className="font-semibold mb-4 text-sm sm:text-base">Pencairan Dana Penjual</h3>
+            <div className="space-y-3 text-sm">
+              <div>
+                <p className="text-txt-muted text-xs mb-0.5">Item Akun Terjual</p>
+                <p className="font-medium text-slate-900 line-clamp-2">{tx.listing.title}</p>
+              </div>
+
+              <div className="border-t border-slate-100 pt-3 space-y-2 text-xs">
+                <div className="flex justify-between">
+                  <span className="text-txt-muted">Harga Jual</span>
+                  <span className="font-medium">{formatRupiah(tx.price)}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-txt-muted">Potongan Rekber</span>
+                  <span className="font-medium text-emerald-600">Rp 0 (Ditanggung Pembeli)</span>
+                </div>
+                <div className="flex justify-between text-sm font-bold text-emerald-600 border-t border-slate-100 pt-2">
+                  <span>Dana yang Diterima</span>
+                  <span>{formatRupiah(tx.price)}</span>
+                </div>
+              </div>
+
+              <div className="bg-amber-50 rounded-xl p-3 border border-amber-200/70 text-xs text-amber-900 flex items-start gap-2 mt-4">
+                <AlertCircle size={16} className="text-amber-600 shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-bold">Syarat Pencairan Dana</p>
+                  <p className="text-[11px] text-amber-800 mt-0.5">
+                    Dana akan otomatis ditransfer ke rekening Anda setelah pembeli mengonfirmasi akun berhasil diamankan.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </Card>
+
+          {/* Card 2: Timeline & Checklist Serah Terima */}
+          <Card>
+            <h3 className="font-semibold mb-4 text-sm sm:text-base">Progres Serah Terima</h3>
+            <TransactionTimeline steps={tx.timeline} />
+
+            <h4 className="font-semibold mt-6 mb-2.5 text-xs uppercase tracking-wider text-slate-500">
+              Checklist untuk Penjual
+            </h4>
+            <div className="space-y-2">
+              {tx.checklist.map((c, i) => (
+                <div key={i} className="flex items-start gap-2 text-xs text-slate-600">
+                  <CheckCircle2
+                    size={14}
+                    className={`mt-0.5 shrink-0 ${
+                      c.checked ? "text-emerald-500" : "text-slate-300"
+                    }`}
+                  />
+                  <span className={c.checked ? "line-through text-slate-400" : ""}>{c.label}</span>
+                </div>
+              ))}
+            </div>
+          </Card>
+
+          {/* Card 3: Pembeli & Admin Escrow */}
+          <Card>
+            <h3 className="font-semibold mb-4 text-sm sm:text-base">Informasi Partner</h3>
+            <div className="space-y-4 text-sm">
+              {/* Buyer */}
+              <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80">
+                <p className="text-txt-muted text-[11px] font-semibold uppercase tracking-wider mb-2">
+                  Pembeli Akun
+                </p>
+                <div className="flex items-center gap-3">
+                  <Avatar name={tx.buyer.fullName} size={36} />
+                  <div>
+                    <p className="font-semibold text-slate-900">{tx.buyer.username}</p>
+                    <p className="text-xs text-txt-muted">Nama: {tx.buyer.fullName}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Admin Escrow */}
+              <div className="p-3 rounded-xl bg-amber-50/70 border border-amber-200/80">
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-amber-800 text-[11px] font-semibold uppercase tracking-wider">
+                    Admin Escrow Bertugas
+                  </p>
+                  <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-200 text-amber-900 flex items-center gap-1">
+                    <ShieldCheck size={11} /> Escrow
+                  </span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Avatar name={tx.admin.user.fullName} size={36} />
+                  <div>
+                    <p className="font-semibold text-slate-900">{tx.admin.user.username}</p>
+                    <p className="text-xs text-amber-700">
+                      Waktu aktif: {tx.admin.activeHours}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Card>
+        </div>
+
+        {/* Section Brankas Data Akun (Vault) */}
+        <div>
+          <AccountVaultPanel
+            transactionId={tx.id}
+            role="SELLER"
+          />
+        </div>
+
+        {/* Section Room Chat 3 Arah */}
+        <div>
+          <TransactionChat
+            transactionId={tx.id}
+            defaultRole="SELLER"
+            defaultUserName={tx.listing.seller.username}
+            buyerName={tx.buyer.username}
+            sellerName={tx.listing.seller.username}
+            adminName={tx.admin.user.username}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}

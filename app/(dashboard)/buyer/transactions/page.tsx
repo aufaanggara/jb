@@ -12,12 +12,22 @@ export default function BuyerTransactionsPage() {
         <h1 className="font-display text-2xl font-bold mb-6">Riwayat Transaksi</h1>
         <div className="space-y-3">
           {dummyTransactions.map((t) => (
-            <Card key={t.id} className="flex items-center justify-between">
+            <Card key={t.id} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
                 <p className="font-medium">{t.listing.title}</p>
-                <p className="text-xs text-txt-muted">{new Date(t.createdAt).toLocaleDateString("id-ID")} · {formatRupiah(t.price)}</p>
+                <p className="text-xs text-txt-muted">
+                  {new Date(t.createdAt).toLocaleDateString("id-ID")} · {formatRupiah(t.price)} · Admin: {t.admin.user.username}
+                </p>
               </div>
-              <StatusBadge status={t.status} />
+              <div className="flex items-center gap-3 self-end sm:self-auto">
+                <StatusBadge status={t.status} />
+                <a
+                  href={`/buyer/transactions/${t.id}`}
+                  className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white transition-colors"
+                >
+                  Detail & Chat
+                </a>
+              </div>
             </Card>
           ))}
         </div>

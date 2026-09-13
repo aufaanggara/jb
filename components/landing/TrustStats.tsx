@@ -125,3 +125,5 @@ export function TrustSafety() {
     </section>
   );
 }
+
+export const TrustStats = TrustSafety;

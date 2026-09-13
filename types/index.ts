@@ -100,3 +100,27 @@ export interface Review {
   comment: string;
   createdAt: string;
 }
+
+export type ChatSenderRole = "BUYER" | "SELLER" | "ADMIN";
+
+export interface ChatMessage {
+  id: string;
+  transactionId: string;
+  senderRole: ChatSenderRole;
+  senderName: string;
+  message: string;
+  timestamp: string;
+  attachmentUrl?: string;
+  attachmentType?: "IMAGE" | "FILE";
+}
+
+export interface AccountCredentials {
+  loginMethod: string;
+  accountEmail: string;
+  accountPassword: string;
+  backupCodes?: string;
+  notes?: string;
+  submittedAt: string;
+}
+
+export type PaymentMethodType = "QRIS" | "VA_BCA" | "VA_MANDIRI" | "VA_BRI" | "GOPAY";

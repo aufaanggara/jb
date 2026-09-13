@@ -1,4 +1,4 @@
-import type { Listing, AdminProfile, Transaction, UserProfile, Review } from "@/types";
+import type { Listing, AdminProfile, Transaction, UserProfile, Review, ChatMessage } from "@/types";
 
 export const dummyAdmins: AdminProfile[] = [
   {
@@ -387,6 +387,32 @@ export const dummyTransactions: Transaction[] = [
     ],
     createdAt: "2025-01-10",
   },
+  {
+    id: "trx_4",
+    listing: dummyListings[2], // lst_3: Akun Starter Budget OVR 74 Luka Modric Epic
+    buyer: buyer1,
+    admin: dummyAdmins[0],
+    price: 150000,
+    platformFee: 500,
+    adminFee: 1000,
+    status: "PAYMENT_CONFIRMED",
+    proofUrls: [],
+    timeline: [
+      { label: "Transaksi dibuat", timestamp: "16 Jan 2025, 14:00", done: true },
+      { label: "Buyer transfer (bukti terlampir)", timestamp: "16 Jan 2025, 14:15", done: true },
+      { label: "Admin konfirmasi dana masuk", timestamp: "16 Jan 2025, 14:20", done: true },
+      { label: "Serah terima akun", done: false },
+      { label: "Konfirmasi buyer", done: false },
+      { label: "Pencairan ke seller", done: false },
+    ],
+    checklist: [
+      { label: "Buyer sudah diberi info login akun", checked: false },
+      { label: "Buyer konfirmasi bisa login", checked: false },
+      { label: "Buyer cek detail akun sesuai listing", checked: false },
+      { label: "Buyer setuju tidak ada komplain", checked: false },
+    ],
+    createdAt: "2025-01-16",
+  },
 ];
 
 export const dummyReviews: Review[] = [
@@ -401,3 +427,173 @@ export const platformStats = {
   avgRating: 4.8,
   totalSellers: 892,
 };
+
+export const dummyChatMessages: ChatMessage[] = [
+  // === Transaction trx_1 ===
+  {
+    id: "msg_1",
+    transactionId: "trx_1",
+    senderRole: "ADMIN",
+    senderName: "Rekber_Anto",
+    message: "Halo semuanya! Transaksi #trx_1 sudah dibuat. Buyer silakan transfer sesuai nominal ya. Kalau sudah, kirim bukti transfer di sini.",
+    timestamp: "2025-01-14T10:25:00",
+  },
+  {
+    id: "msg_2",
+    transactionId: "trx_1",
+    senderRole: "BUYER",
+    senderName: "buyer_testing",
+    message: "Siap min, saya transfer sekarang via BCA ya.",
+    timestamp: "2025-01-14T10:30:00",
+  },
+  {
+    id: "msg_3",
+    transactionId: "trx_1",
+    senderRole: "BUYER",
+    senderName: "buyer_testing",
+    message: "Sudah transfer min, total Rp 851.500 (harga + fee). Bukti sudah saya upload.",
+    timestamp: "2025-01-14T10:45:00",
+  },
+  {
+    id: "msg_4",
+    transactionId: "trx_1",
+    senderRole: "ADMIN",
+    senderName: "Rekber_Anto",
+    message: "✅ Dana sudah masuk dan dikonfirmasi. Seller, silakan siapkan data akun (email, password, Konami ID) untuk diserahkan.",
+    timestamp: "2025-01-14T11:02:00",
+  },
+  {
+    id: "msg_5",
+    transactionId: "trx_1",
+    senderRole: "SELLER",
+    senderName: "efootball_seller1",
+    message: "Oke min, data sudah siap. Mau saya kirim di sini atau DM admin?",
+    timestamp: "2025-01-14T11:10:00",
+  },
+  {
+    id: "msg_6",
+    transactionId: "trx_1",
+    senderRole: "ADMIN",
+    senderName: "Rekber_Anto",
+    message: "Kirim via DM ke saya aja ya biar aman. Nanti saya forward ke buyer setelah verifikasi.",
+    timestamp: "2025-01-14T11:12:00",
+  },
+  {
+    id: "msg_7",
+    transactionId: "trx_1",
+    senderRole: "BUYER",
+    senderName: "buyer_testing",
+    message: "Siap min, ditunggu ya 🙏",
+    timestamp: "2025-01-14T11:15:00",
+  },
+
+  // === Transaction trx_2 ===
+  {
+    id: "msg_8",
+    transactionId: "trx_2",
+    senderRole: "ADMIN",
+    senderName: "Rekber_Budi",
+    message: "Transaksi baru dibuat! Buyer, silakan transfer Rp 351.250 ke rekening BNI yang tertera. Jangan lupa sertakan bukti transfer.",
+    timestamp: "2025-01-15T09:12:00",
+  },
+  {
+    id: "msg_9",
+    transactionId: "trx_2",
+    senderRole: "BUYER",
+    senderName: "buyer_testing",
+    message: "Baik min, nanti siang saya transfer ya.",
+    timestamp: "2025-01-15T09:20:00",
+  },
+  {
+    id: "msg_10",
+    transactionId: "trx_2",
+    senderRole: "SELLER",
+    senderName: "gamer_jual",
+    message: "Oke ditunggu ya kak, akun sudah saya siapkan 👍",
+    timestamp: "2025-01-15T09:25:00",
+  },
+
+  // === Transaction trx_3 ===
+  {
+    id: "msg_11",
+    transactionId: "trx_3",
+    senderRole: "ADMIN",
+    senderName: "Rekber_Anto",
+    message: "Transaksi sultan nih! 😄 Buyer silakan transfer Rp 2.501.500. Hati-hati salah nominal ya.",
+    timestamp: "2025-01-10T08:05:00",
+  },
+  {
+    id: "msg_12",
+    transactionId: "trx_3",
+    senderRole: "BUYER",
+    senderName: "buyer_testing",
+    message: "Sudah transfer min, cek ya.",
+    timestamp: "2025-01-10T08:20:00",
+  },
+  {
+    id: "msg_13",
+    transactionId: "trx_3",
+    senderRole: "ADMIN",
+    senderName: "Rekber_Anto",
+    message: "✅ Confirmed! Seller silakan kirim data akun.",
+    timestamp: "2025-01-10T08:35:00",
+  },
+  {
+    id: "msg_14",
+    transactionId: "trx_3",
+    senderRole: "SELLER",
+    senderName: "gamer_jual",
+    message: "Data sudah saya kirim via DM min. Email + password + backup code 2FA.",
+    timestamp: "2025-01-10T08:50:00",
+  },
+  {
+    id: "msg_15",
+    transactionId: "trx_3",
+    senderRole: "ADMIN",
+    senderName: "Rekber_Anto",
+    message: "Buyer, data akun sudah saya forward. Silakan login dan cek apakah sesuai listing.",
+    timestamp: "2025-01-10T09:00:00",
+  },
+  {
+    id: "msg_16",
+    transactionId: "trx_3",
+    senderRole: "BUYER",
+    senderName: "buyer_testing",
+    message: "Sudah login min, semua sesuai! Messi BT, Ronaldo, Pele ada semua. Mantap! ⭐",
+    timestamp: "2025-01-10T09:25:00",
+  },
+  {
+    id: "msg_17",
+    transactionId: "trx_3",
+    senderRole: "ADMIN",
+    senderName: "Rekber_Anto",
+    message: "Alhamdulillah lancar! Dana akan dicairkan ke seller. Terima kasih sudah pakai RekberGG 🎉",
+    timestamp: "2025-01-10T09:35:00",
+  },
+
+  // === Transaction trx_4 (Akun Starter Budget OVR 74 Luka Modric Epic) ===
+  {
+    id: "msg_18",
+    transactionId: "trx_4",
+    senderRole: "ADMIN",
+    senderName: "Rekber_Anto",
+    message: "Halo kak! Room chat rekber untuk akun Modric Epic sudah aktif. Dana pembeli aman di escrow RekberGG.",
+    timestamp: "2025-01-16T14:20:00",
+  },
+  {
+    id: "msg_19",
+    transactionId: "trx_4",
+    senderRole: "SELLER",
+    senderName: "efootball_seller1",
+    message: "Halo min dan pembeli! Akun Modric Epic siap serah terima, data login sudah siap.",
+    timestamp: "2025-01-16T14:22:00",
+  },
+  {
+    id: "msg_20",
+    transactionId: "trx_4",
+    senderRole: "BUYER",
+    senderName: "buyer_testing",
+    message: "Halo min, siap cek data akunnya sekarang 👍",
+    timestamp: "2025-01-16T14:25:00",
+  },
+];
