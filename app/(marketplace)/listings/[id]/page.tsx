@@ -13,6 +13,7 @@ import { formatRupiah, waLink } from "@/lib/utils";
 import { BuyPanel } from "./BuyPanel";
 import { ImageGallery } from "./ImageGallery";
 import { ListingChatLauncher } from "@/components/marketplace/ListingChatLauncher";
+import { ListingDiscussion } from "@/components/marketplace/ListingDiscussion";
 import { ShareListingButton } from "@/components/marketplace/ShareListingButton";
 
 import { DetailBackButton } from "@/components/marketplace/DetailBackButton";
@@ -20,6 +21,7 @@ import { DetailBackButton } from "@/components/marketplace/DetailBackButton";
 export default function ListingDetailPage({ params }: { params: { id: string } }) {
   const { listings } = useStore();
   const [mounted, setMounted] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -154,6 +156,15 @@ export default function ListingDetailPage({ params }: { params: { id: string } }
               </div>
             </div>
 
+            {/* Diskusi & Tanya Jawab Akun (Bisa dibawa langsung ke Room Chat Rekber) */}
+            <ListingDiscussion
+              listingId={listing.id}
+              listingTitle={listing.title}
+              sellerName={listing.seller.username}
+              transactionId={transactionId}
+              onOpenChatRoom={() => setIsChatOpen(true)}
+            />
+
             {/* Customer Reviews Section */}
             <div className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-xs">
               <h2 className="text-sm sm:text-base font-bold text-slate-900 mb-5 flex items-center gap-2">
@@ -206,6 +217,8 @@ export default function ListingDetailPage({ params }: { params: { id: string } }
                   transactionId={transactionId}
                   listingTitle={listing.title}
                   sellerName={listing.seller.username}
+                  isOpen={isChatOpen}
+                  onOpenChange={setIsChatOpen}
                 />
               </div>
 

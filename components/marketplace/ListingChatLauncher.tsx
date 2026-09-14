@@ -11,6 +11,8 @@ interface ListingChatLauncherProps {
   buyerName?: string;
   sellerName?: string;
   adminName?: string;
+  isOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
 export function ListingChatLauncher({
@@ -19,8 +21,16 @@ export function ListingChatLauncher({
   buyerName = "buyer_testing",
   sellerName = "efootball_seller1",
   adminName = "Rekber_Anto",
+  isOpen: controlledIsOpen,
+  onOpenChange,
 }: ListingChatLauncherProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [internalIsOpen, setInternalIsOpen] = useState(false);
+
+  const isChatOpen = controlledIsOpen !== undefined ? controlledIsOpen : internalIsOpen;
+  const setChatOpen = (val: boolean) => {
+    if (onOpenChange) onOpenChange(val);
+    setInternalIsOpen(val);
+  };
 
   return (
     <>
@@ -28,7 +38,7 @@ export function ListingChatLauncher({
       <div className="w-full">
         <button
           type="button"
-          onClick={() => setIsOpen(true)}
+          onClick={() => setChatOpen(true)}
           className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100 border border-blue-200 text-blue-800 font-bold text-xs transition-all shadow-xs flex items-center justify-between gap-2 cursor-pointer group"
         >
           <div className="flex items-center gap-2">
@@ -50,7 +60,7 @@ export function ListingChatLauncher({
       <div className="fixed bottom-5 right-5 z-40">
         <button
           type="button"
-          onClick={() => setIsOpen((prev) => !prev)}
+          onClick={() => setChatOpen(!isChatOpen)}
           className="bg-slate-900 hover:bg-blue-600 text-white p-3.5 sm:px-4 sm:py-3 rounded-full shadow-2xl flex items-center gap-2.5 border border-slate-700 hover:border-blue-500 transition-all hover:scale-105 cursor-pointer"
           aria-label="Buka Chat Room 3 Arah"
         >
@@ -66,10 +76,10 @@ export function ListingChatLauncher({
       </div>
 
       {/* 3. MODAL / SLIDE-OVER DRAWER */}
-      {isOpen && (
+      {isChatOpen && (
         <div
           className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center sm:p-4"
-          onClick={() => setIsOpen(false)}
+          onClick={() => setChatOpen(false)}
         >
           <div
             onClick={(e) => e.stopPropagation()}
@@ -98,7 +108,7 @@ export function ListingChatLauncher({
                 </Link>
                 <button
                   type="button"
-                  onClick={() => setIsOpen(false)}
+                  onClick={() => setChatOpen(false)}
                   className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
                   aria-label="Tutup Chat"
                 >

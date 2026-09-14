@@ -147,22 +147,29 @@ export function Navbar() {
 
           <div className="pt-3 border-t border-slate-100 space-y-2">
             <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider px-1">
-              Menu Dashboard & Chat:
+              Pilih Role Dashboard:
             </div>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-3 gap-2">
               <Link
-                href="/buyer/transactions"
+                href="/buyer"
                 onClick={() => setOpen(false)}
-                className="flex items-center gap-1.5 p-2 rounded-lg bg-blue-50 text-blue-700 text-xs font-semibold"
+                className="flex items-center justify-center gap-1 p-2 rounded-xl bg-blue-50 text-blue-700 text-xs font-semibold"
               >
-                <MessageSquare size={13} /> Chat & Transaksi
+                <User size={13} /> Buyer
               </Link>
               <Link
                 href="/seller"
                 onClick={() => setOpen(false)}
-                className="flex items-center gap-1.5 p-2 rounded-lg bg-emerald-50 text-emerald-700 text-xs font-semibold"
+                className="flex items-center justify-center gap-1 p-2 rounded-xl bg-emerald-50 text-emerald-700 text-xs font-semibold"
               >
-                <Store size={13} /> Toko Penjual
+                <Store size={13} /> Seller
+              </Link>
+              <Link
+                href="/admin"
+                onClick={() => setOpen(false)}
+                className="flex items-center justify-center gap-1 p-2 rounded-xl bg-amber-50 text-amber-700 text-xs font-semibold"
+              >
+                <ShieldCheck size={13} /> Admin
               </Link>
             </div>
           </div>

@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import { Send, ShieldCheck, User, Store, Lock, Info, Image as ImageIcon, X, ZoomIn, Paperclip } from "lucide-react";
+import { Send, ShieldCheck, User, Store, Lock, Info, Image as ImageIcon, X, ZoomIn, Paperclip, MessageSquare } from "lucide-react";
 import { Avatar } from "@/components/ui/Avatar";
 import { useStore } from "@/store/useStore";
 import type { ChatSenderRole } from "@/types";
@@ -312,7 +312,27 @@ export function TransactionChat({
                     )}
 
                     {/* Message Body */}
-                    {m.message && <p className="whitespace-pre-wrap">{m.message}</p>}
+                    {m.message && m.message.startsWith("[Dari Diskusi Listing]:") ? (
+                      <div className="space-y-1.5 pt-0.5">
+                        <div
+                          className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold ${
+                            isMe
+                              ? activeRole === "ADMIN"
+                                ? "bg-slate-900/20 text-slate-900"
+                                : "bg-white/20 text-white"
+                              : "bg-blue-100 text-blue-800 border border-blue-200"
+                          }`}
+                        >
+                          <MessageSquare size={10} />
+                          <span>Dari Tanya Jawab Postingan Akun</span>
+                        </div>
+                        <p className="whitespace-pre-wrap font-medium">
+                          {m.message.replace("[Dari Diskusi Listing]:", "").trim()}
+                        </p>
+                      </div>
+                    ) : (
+                      m.message && <p className="whitespace-pre-wrap">{m.message}</p>
+                    )}
 
                     {/* Timestamp */}
                     <div
