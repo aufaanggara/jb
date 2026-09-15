@@ -404,6 +404,7 @@ dod:
 
 ```yaml
 type: development
+status: completed
 assignee: Bagas
 estimate_days: 3
 depends_on: []
