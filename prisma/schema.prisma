@@ -13,19 +13,21 @@ model User {
   email       String   @unique
   username    String   @unique
   fullName    String
-  whatsapp    String?
+  password    String?  // Nullable: untuk fleksibilitas OAuth di masa depan
   avatarUrl   String?
   role        Role     @default(USER)
   isVerified  Boolean  @default(false)
   createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  adminProfile         AdminProfile?
-  listingsAsSeller     Listing[]
-  transactionsAsBuyer  Transaction[] @relation("BuyerTransactions")
-  transactionsAsAdmin  Transaction[] @relation("AdminTransactions")
-  reviewsGiven         Review[]      @relation("ReviewGiver")
-  reviewsReceived      Review[]      @relation("ReviewReceiver")
-  chatMessages         ChatMessage[]
+  adminProfile          AdminProfile?
+  listingsAsSeller      Listing[]
+  transactionsAsBuyer   Transaction[] @relation("BuyerTransactions")
+  transactionsAsSeller  Transaction[] @relation("SellerTransactions")
+  transactionsAsAdmin   Transaction[] @relation("AdminTransactions")
+  reviewsGiven          Review[]      @relation("ReviewGiver")
+  reviewsReceived       Review[]      @relation("ReviewReceiver")
+  chatMessages          ChatMessage[]
 }
 
 enum Role {
@@ -81,6 +83,8 @@ model Transaction {
   listing     Listing           @relation(fields: [listingId], references: [id])
   buyerId     String
   buyer       User              @relation("BuyerTransactions", fields: [buyerId], references: [id])
+  sellerId    String
+  seller      User              @relation("SellerTransactions", fields: [sellerId], references: [id])
   adminId     String
   admin       User              @relation("AdminTransactions", fields: [adminId], references: [id])
   price       Int
@@ -88,13 +92,14 @@ model Transaction {
   adminFee    Int               @default(1000)
   status      TransactionStatus @default(PENDING_PAYMENT)
   notes       String?
+  disputeReason String?         // Disimpan di sini saat status = DISPUTED
   proofUrls   String[]
-  logs        Json[]
-  checklist   Json
+  logs        Json[]            // Timeline activity: [{action, actor, timestamp}]
+  checklist   Json              // Handover checklist: {email, password, twoFA, etc}
   createdAt   DateTime          @default(now())
   updatedAt   DateTime          @updatedAt
 
-  reviews Review[]
+  reviews      Review[]
   chatMessages ChatMessage[]
 }
 
