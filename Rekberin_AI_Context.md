@@ -838,3 +838,21 @@ PRD rekberin.docx: original PRD; contains brainstorming notes, some of which are
 Rekberin_Rencana_Issue.md: earlier human-oriented issue summary.
 Rekberin_Rencana_Issue.pdf: detailed issue descriptions; current allocation is represented in ISSUE_BACKLOG above.
 ```
+
+## REPOSITORY_IMPLEMENTATION_PROGRESS
+
+### DEV-12 - CI/CD
+
+DEV-12 is assigned to Afiq and has been implemented on branch `feat/dev-12-ci-cd`.
+
+- Added the `typecheck` script to `package.json` using `tsc --noEmit`.
+- Added `.github/workflows/ci.yml`.
+- CI runs on pull requests and pushes to `main`.
+- CI uses Node.js 20 and installs dependencies with `npm ci`.
+- CI runs `npm run typecheck` and `npm run build`.
+- Local typecheck and production build both passed.
+- The CI check on the pull request passed.
+- The implementation commit is `7b1d3bb chore: add CI workflow`.
+- The context update was originally committed as `81b6e0e docs: add AI project context` and is being consolidated into this canonical file during conflict resolution.
+
+The pull request must be reviewed and merged into `main` after this conflict-resolution commit. Do not commit `.env` or `.env.local`; use `.env.example` for documented environment variables.
