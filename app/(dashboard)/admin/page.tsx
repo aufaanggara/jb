@@ -301,9 +301,9 @@ export default function AdminDashboardPage() {
 
           <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between">
             <div>
-              <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Fee Terkumpul</p>
+              <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Pendapatan Platform</p>
               <p className="text-lg sm:text-xl font-black text-emerald-600 mt-0.5">{formatRupiah(totalFee)}</p>
-              <span className="text-[11px] text-emerald-600 font-medium mt-1 inline-block">100% Hak Admin</span>
+              <span className="text-[11px] text-emerald-600 font-medium mt-1 inline-block">Operasional &amp; Gaji Staf</span>
             </div>
             <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
               <Wallet size={22} />
@@ -590,7 +590,7 @@ export default function AdminDashboardPage() {
                       <th className="py-3 px-4">Akun Game</th>
                       <th className="py-3 px-4">Pihak Transaksi</th>
                       <th className="py-3 px-4">Nominal</th>
-                      <th className="py-3 px-4">Fee Admin</th>
+                      <th className="py-3 px-4">Fee Platform</th>
                       <th className="py-3 px-4">Status</th>
                       <th className="py-3 px-4 text-right">Aksi</th>
                     </tr>

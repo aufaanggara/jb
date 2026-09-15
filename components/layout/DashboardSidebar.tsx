@@ -94,9 +94,30 @@ const roleConfig = {
       { href: "/admin/transactions", label: "Antrean Transaksi", icon: ShieldCheck },
     ] as NavItem[],
   },
+  // role "user" = satu akun USER dengan dua konteks (beli & jual) — Section 17.1
+  user: {
+    title: "Akun Saya",
+    color: "blue",
+    badge: "USER Terverifikasi",
+    badgeColor: "bg-blue-50 text-blue-700 border-blue-200",
+    name: "Dimas Anggara",
+    tag: "@buyer_dimas",
+    balance: "Rp 350.000",
+    balanceLabel: "Saldo Rekber",
+    avatarBg: "bg-gradient-to-tr from-blue-600 to-indigo-500",
+    notifications: [
+      { id: "n1", title: "Dana Escrow Ditahan Aman", desc: "Pembayaran Anda untuk akun eFootball telah diamankan Admin Anto.", time: "10 mnt lalu", unread: true },
+      { id: "n2", title: "Pesanan Masuk Baru", desc: "Buyer telah mentransfer dana ke escrow. Segera kirim data akun!", time: "5 mnt lalu", unread: true },
+    ],
+    items: [
+      { href: "/user", label: "Dashboard", icon: LayoutDashboard },
+      { href: "/listings", label: "Katalog Akun Game", icon: Package },
+      { href: "/seller/listings/new", label: "Pasang Iklan Baru", icon: PlusCircle, isHighlight: true },
+    ] as NavItem[],
+  },
 };
 
-export function DashboardSidebar({ role }: { role: "buyer" | "seller" | "admin" }) {
+export function DashboardSidebar({ role }: { role: "buyer" | "seller" | "admin" | "user" }) {
   const pathname = usePathname();
   const currentRole = roleConfig[role];
   const [notifOpen, setNotifOpen] = useState(false);
@@ -177,31 +198,18 @@ export function DashboardSidebar({ role }: { role: "buyer" | "seller" | "admin" 
         <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-2 py-1">
           Ganti Mode Role:
         </p>
-        <div className="grid grid-cols-3 gap-1">
+        <div className="grid grid-cols-2 gap-1">
           <Link
-            href="/buyer"
+            href="/user"
             className={cn(
               "flex flex-col items-center justify-center py-2 px-1 rounded-xl text-[11px] font-bold transition-all",
-              role === "buyer"
+              role === "user" || role === "buyer" || role === "seller"
                 ? "bg-white text-blue-600 shadow-xs border border-blue-200/60"
                 : "text-slate-500 hover:text-slate-800 hover:bg-white/50"
             )}
           >
             <User size={14} className="mb-0.5" />
-            <span>Buyer</span>
-          </Link>
-
-          <Link
-            href="/seller"
-            className={cn(
-              "flex flex-col items-center justify-center py-2 px-1 rounded-xl text-[11px] font-bold transition-all",
-              role === "seller"
-                ? "bg-white text-emerald-600 shadow-xs border border-emerald-200/60"
-                : "text-slate-500 hover:text-slate-800 hover:bg-white/50"
-            )}
-          >
-            <Store size={14} className="mb-0.5" />
-            <span>Seller</span>
+            <span>Akun Saya</span>
           </Link>
 
           <Link
