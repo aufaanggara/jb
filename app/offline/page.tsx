@@ -1,7 +1,7 @@
 import { WifiOff, RefreshCw } from "lucide-react";
 
 export const metadata = {
-  title: "Offline — RekberGG",
+  title: "Offline — Rekberin",
 };
 
 export default function OfflinePage() {

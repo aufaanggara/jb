@@ -14,7 +14,7 @@ export default function AdminTransactionsPage() {
         <div>
           <h1 className="font-display text-2xl font-bold text-slate-900">Antrean Semua Transaksi Rekber</h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            Pantau dan lakukan audit pada seluruh transaksi jual-beli akun game di RekberGG.
+            Pantau dan lakukan audit pada seluruh transaksi jual-beli akun game di Rekberin.
           </p>
         </div>
 

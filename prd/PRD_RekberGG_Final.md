@@ -1,5 +1,5 @@
 # Product Requirements Document (PRD)
-# RekberGG — Platform Rekber Jual-Beli Akun eFootball
+# Rekberin — Platform Rekber Jual-Beli Akun eFootball
 
 > **Versi:** 1.0
 > **Tanggal:** 14 September 2026
@@ -11,7 +11,7 @@
 
 ## 1. Executive Summary
 
-**RekberGG** adalah platform web **end-to-end** yang menjembatani transaksi jual-beli akun game **eFootball** secara aman melalui mekanisme **rekber (rekening bersama)**. Platform ini hadir untuk menyelesaikan masalah penipuan dalam jual-beli akun game yang selama ini menjadi kekhawatiran utama komunitas gaming Indonesia.
+**Rekberin** adalah platform web **end-to-end** yang menjembatani transaksi jual-beli akun game **eFootball** secara aman melalui mekanisme **rekber (rekening bersama)**. Platform ini hadir untuk menyelesaikan masalah penipuan dalam jual-beli akun game yang selama ini menjadi kekhawatiran utama komunitas gaming Indonesia.
 
 Platform menghubungkan tiga pihak utama: **Pembeli**, **Penjual**, dan **Admin Rekber (Trusted Middleman)** — dengan sistem monitoring transaksi real-time, chat terenkripsi, sistem reputasi/trust score, dan manajemen dispute terintegrasi.
 
@@ -114,7 +114,7 @@ Platform menghubungkan tiga pihak utama: **Pembeli**, **Penjual**, dan **Admin R
 
 ### Segment 4: Super Admin (Platform Operator)
 **Profil:**
-- Tim internal RekberGG
+- Tim internal Rekberin
 - Bertanggung jawab atas kualitas admin rekber dan penyelesaian dispute
 
 **Jobs to be Done:**
@@ -821,5 +821,5 @@ Supaya klaster tidak saling nunggu tanpa arah, tetapkan momen sinkronisasi rutin
 
 ---
 
-*Document ini dibuat berdasarkan analisis codebase RekberGG versi current (September 2026), digabung dengan hasil sesi brainstorming produk & bisnis, serta pembagian klaster kerja tim final 4 orang.*
+*Document ini dibuat berdasarkan analisis codebase Rekberin versi current (September 2026), digabung dengan hasil sesi brainstorming produk & bisnis, serta pembagian klaster kerja tim final 4 orang.*
 *PRD ini bersifat living document dan akan diperbarui seiring perkembangan produk.*

@@ -654,7 +654,7 @@ export default function AdminDashboardPage() {
         <div className="bg-gradient-to-br from-slate-900 to-amber-950 text-white p-5 rounded-2xl border border-slate-800 shadow-xs">
           <div className="flex items-center gap-2 mb-2 font-bold text-sm">
             <Scale size={18} className="text-amber-400" />
-            <span>Protokol Keamanan Admin Rekber RekberGG</span>
+            <span>Protokol Keamanan Admin Rekber Rekberin</span>
           </div>
           <p className="text-xs text-slate-300 leading-relaxed max-w-3xl">
             Sebagai Admin Rekber berlisensi, pastikan mutasi rekening bank selalu dicek secara mandiri sebelum menekan tombol verifikasi. Simpan bukti percakapan serah-terima akun di dalam room chat resmi untuk keperluan audit dan perlindungan garansi bagi pembeli maupun penjual.

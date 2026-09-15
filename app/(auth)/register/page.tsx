@@ -25,7 +25,7 @@ export default function RegisterPage() {
   return (
     <div className="mx-auto max-w-md px-4 py-16">
       <Card>
-        <h1 className="font-display text-2xl font-bold mb-1">Daftar RekberGG</h1>
+        <h1 className="font-display text-2xl font-bold mb-1">Daftar Rekberin</h1>
         <p className="text-txt-secondary text-sm mb-6">Pilih peran Anda untuk memulai.</p>
 
         <div className="grid grid-cols-2 gap-3 mb-6">

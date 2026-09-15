@@ -16,7 +16,7 @@ export default function SellerListingsPage() {
           <div>
             <h1 className="font-display text-2xl font-bold text-slate-900">Kelola Listing Game</h1>
             <p className="text-xs sm:text-sm text-slate-500 mt-1">
-              Daftar seluruh iklan akun game yang kamu tawarkan di marketplace RekberGG.
+              Daftar seluruh iklan akun game yang kamu tawarkan di marketplace Rekberin.
             </p>
           </div>
           <Link href="/seller/listings/new">

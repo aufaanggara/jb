@@ -17,7 +17,7 @@ export default function NewListingPublicPage() {
             Pasang Iklan Jual Akun Game
           </h1>
           <p className="text-xs sm:text-sm text-slate-600 mt-1">
-            Isi spesifikasi akunmu dan unggah screenshot untuk mulai menjual dengan aman via RekberGG.
+            Isi spesifikasi akunmu dan unggah screenshot untuk mulai menjual dengan aman via Rekberin.
           </p>
         </div>
 

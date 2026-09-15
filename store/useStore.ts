@@ -43,7 +43,7 @@ interface AppState {
 // Multi-tab real-time sync via BroadcastChannel
 let chatChannel: BroadcastChannel | null = null;
 if (typeof window !== "undefined" && "BroadcastChannel" in window) {
-  chatChannel = new BroadcastChannel("rekbergg_realtime_chat");
+  chatChannel = new BroadcastChannel("rekberin_realtime_chat");
 }
 
 export const useStore = create<AppState>((set, get) => {
@@ -76,7 +76,7 @@ export const useStore = create<AppState>((set, get) => {
   const getUserListings = (): Listing[] => {
     if (typeof window !== "undefined") {
       try {
-        const saved = localStorage.getItem("rekbergg_user_listings");
+        const saved = localStorage.getItem("rekberin_user_listings");
         if (saved) {
           const parsed = JSON.parse(saved);
           if (Array.isArray(parsed)) return parsed;
@@ -97,9 +97,9 @@ export const useStore = create<AppState>((set, get) => {
     addListing: (listing) => {
       if (typeof window !== "undefined") {
         try {
-          const saved = localStorage.getItem("rekbergg_user_listings");
+          const saved = localStorage.getItem("rekberin_user_listings");
           const current = saved ? JSON.parse(saved) : [];
-          localStorage.setItem("rekbergg_user_listings", JSON.stringify([listing, ...current]));
+          localStorage.setItem("rekberin_user_listings", JSON.stringify([listing, ...current]));
         } catch {
           // ignore
         }
@@ -245,7 +245,7 @@ export const useStore = create<AppState>((set, get) => {
         transactionId,
         "ADMIN",
         "Rekber_Anto",
-        `✅ PEMBAYARAN DITERIMA (${method}): Dana sebesar Rp ${(get().getTransaction(transactionId)?.price || 0) + 1500} telah masuk & AMAN ditahan di rekening Escrow RekberGG. Penjual sekarang aman untuk menyerahkan data akun melalui Brankas Akun (Vault).`
+        `✅ PEMBAYARAN DITERIMA (${method}): Dana sebesar Rp ${(get().getTransaction(transactionId)?.price || 0) + 1500} telah masuk & AMAN ditahan di rekening Escrow Rekberin. Penjual sekarang aman untuk menyerahkan data akun melalui Brankas Akun (Vault).`
       );
     },
 
@@ -267,7 +267,7 @@ export const useStore = create<AppState>((set, get) => {
         transactionId,
         "ADMIN",
         "Rekber_Anto",
-        "🎉 TRANSAKSI SELESAI & SUKSES! Pembeli telah mengonfirmasi bahwa data akun sudah aman. Dana otomatis kami cairkan ke rekening Penjual. Terima kasih telah bertransaksi secara aman di RekberGG!"
+        "🎉 TRANSAKSI SELESAI & SUKSES! Pembeli telah mengonfirmasi bahwa data akun sudah aman. Dana otomatis kami cairkan ke rekening Penjual. Terima kasih telah bertransaksi secara aman di Rekberin!"
       );
     },
 

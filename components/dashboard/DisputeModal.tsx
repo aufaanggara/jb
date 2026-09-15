@@ -94,7 +94,7 @@ export function DisputeModal({
             <form onSubmit={handleBuyerSubmit} className="space-y-3.5">
               <div className="p-3 bg-rose-50 rounded-xl border border-rose-200 text-rose-900 space-y-1">
                 <p className="font-bold flex items-center gap-1.5">
-                  <ShieldAlert size={14} className="text-rose-600" /> Perlindungan Garansi RekberGG
+                  <ShieldAlert size={14} className="text-rose-600" /> Perlindungan Garansi Rekberin
                 </p>
                 <p className="text-[11px] text-rose-800">
                   Dana Anda di rekening admin akan <strong>dibekukan otomatis</strong> begitu komplain diajukan. Penjual tidak dapat mencairkan dana sampai masalah ini diselesaikan bersama Admin.

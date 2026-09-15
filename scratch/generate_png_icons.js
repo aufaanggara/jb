@@ -38,7 +38,7 @@ function createPNG(width, height, r, g, b) {
         rawData[idx + 1] = 255;
         rawData[idx + 2] = 255;
       } else {
-        // Outer RekberGG Blue (#2563eb)
+        // Outer Rekberin Blue (#2563eb)
         rawData[idx] = r;
         rawData[idx + 1] = g;
         rawData[idx + 2] = b;
@@ -88,7 +88,7 @@ if (!fs.existsSync(publicDir)) {
   fs.mkdirSync(publicDir, { recursive: true });
 }
 
-// Generate 192x192 and 512x512 PNGs (RekberGG Blue #2563eb = RGB 37, 99, 235)
+// Generate 192x192 and 512x512 PNGs (Rekberin Blue #2563eb = RGB 37, 99, 235)
 fs.writeFileSync(path.join(publicDir, 'icon-192.png'), createPNG(192, 192, 37, 99, 235));
 fs.writeFileSync(path.join(publicDir, 'icon-512.png'), createPNG(512, 512, 37, 99, 235));
 fs.writeFileSync(path.join(publicDir, 'apple-icon.png'), createPNG(180, 180, 37, 99, 235));

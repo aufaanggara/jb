@@ -41,7 +41,7 @@ export function HowItWorks() {
           Proses Transaksi Sederhana
         </span>
         <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-3 mb-3">
-          Cara Kerja Transaksi di RekberGG
+          Cara Kerja Transaksi di Rekberin
         </h2>
         <p className="text-sm sm:text-base text-slate-600">
           Alur perlindungan escrow 3 langkah yang menjamin pembeli menerima akun sesuai deskripsi dan penjual menerima uang tanpa risiko.

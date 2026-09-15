@@ -146,7 +146,7 @@ export default function AdminProfilePage({ params }: { params: { username: strin
           </Button>
         </Link>
         <p className="text-xs text-slate-500 text-center">
-          Selalu pastikan Anda bertransaksi melalui room rekber resmi dan nomor rekening yang diverifikasi oleh sistem RekberGG.
+          Selalu pastikan Anda bertransaksi melalui room rekber resmi dan nomor rekening yang diverifikasi oleh sistem Rekberin.
         </p>
       </div>
     </div>

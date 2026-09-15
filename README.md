@@ -1,4 +1,4 @@
-# RekberGG — Visual-First (v2, lengkap)
+# Rekberin — Visual-First (v2, lengkap)
 
 Platform direktori & dashboard rekber untuk jual-beli akun eFootball. Tampilan dark-premium
 "Awwwards-grade" dengan GSAP ScrollTrigger, Lenis smooth-scroll, custom cursor, Three.js particle

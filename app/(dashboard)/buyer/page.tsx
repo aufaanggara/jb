@@ -103,7 +103,7 @@ export default function BuyerDashboardPage() {
                 Selamat Datang, Dimas! 👋
               </h1>
               <p className="text-blue-100 text-xs sm:text-sm mt-1 max-w-xl">
-                Setiap transaksi akun game kamu 100% diproteksi sistem Escrow RekberGG dan diawasi Admin berlisensi resmi.
+                Setiap transaksi akun game kamu 100% diproteksi sistem Escrow Rekberin dan diawasi Admin berlisensi resmi.
               </p>
             </div>
 

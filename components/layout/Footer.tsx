@@ -15,7 +15,7 @@ export function Footer() {
                 <ShieldCheck size={20} />
               </div>
               <span className="font-bold text-lg text-slate-900">
-                Rekber<span className="text-blue-600">GG</span>
+                Rekber<span className="text-blue-600">in</span>
               </span>
             </div>
 
@@ -137,7 +137,7 @@ export function Footer() {
               Sistem Escrow Aktif & Terlindungi
             </span>
           </div>
-          <p>© {new Date().getFullYear()} RekberGG Inc. All rights reserved. Dibuat untuk komunitas game Indonesia.</p>
+          <p>© {new Date().getFullYear()} Rekberin Inc. All rights reserved. Dibuat untuk komunitas game Indonesia.</p>
         </div>
       </div>
     </footer>

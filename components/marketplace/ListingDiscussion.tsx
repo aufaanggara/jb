@@ -157,7 +157,7 @@ export function ListingDiscussion({
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <span className="text-[11px] text-slate-400 flex items-center gap-1">
             <ShieldCheck size={13} className="text-emerald-500" />
-            Pertanyaan dimonitor oleh Admin Escrow RekberGG
+            Pertanyaan dimonitor oleh Admin Escrow Rekberin
           </span>
 
           <div className="flex items-center gap-2 self-end sm:self-auto">

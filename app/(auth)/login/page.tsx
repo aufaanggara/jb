@@ -21,7 +21,7 @@ export default function LoginPage() {
   return (
     <div className="mx-auto max-w-md px-4 py-16">
       <Card>
-        <h1 className="font-display text-2xl font-bold mb-1">Masuk ke RekberGG</h1>
+        <h1 className="font-display text-2xl font-bold mb-1">Masuk ke Rekberin</h1>
         <p className="text-txt-secondary text-sm mb-6">Lanjutkan transaksi Anda dengan aman.</p>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>

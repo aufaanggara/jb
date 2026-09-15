@@ -26,7 +26,7 @@ export function Navbar() {
           <div className="flex flex-col">
             <div className="flex items-center gap-1 leading-none">
               <span className="font-bold text-lg text-slate-900 tracking-tight">
-                Rekber<span className="text-blue-600">GG</span>
+                Rekber<span className="text-blue-600">in</span>
               </span>
               <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200">
                 ESCROW

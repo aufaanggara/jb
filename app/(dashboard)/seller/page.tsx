@@ -607,7 +607,7 @@ export default function SellerDashboardPage() {
         <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5">
           <div className="flex items-center gap-2 font-bold text-slate-800 text-sm mb-2">
             <ShieldCheck size={18} className="text-emerald-600" />
-            <span>SOP & Aturan Penjualan Aman di RekberGG</span>
+            <span>SOP & Aturan Penjualan Aman di Rekberin</span>
           </div>
           <div className="grid md:grid-cols-3 gap-4 text-xs text-slate-600 mt-3">
             <div className="p-3 bg-white rounded-xl border border-slate-200/80">

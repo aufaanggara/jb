@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export function generateMetadata() {
   return {
-    title: "Marketplace Akun Game & Rekber — RekberGG",
+    title: "Marketplace Akun Game & Rekber — Rekberin",
     description: "Cari akun eFootball, Mobile Legends & FC Mobile terverifikasi dengan filter no minus, OVR, koin, dan tipe login.",
   };
 }

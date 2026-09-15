@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export function generateMetadata() {
   return {
-    title: "Direktori Admin Rekber Terpercaya — RekberGG",
+    title: "Direktori Admin Rekber Terpercaya — Rekberin",
     description: "Daftar admin rekber game resmi ber-TrustScore tinggi, cepat dan terverifikasi identitas resmi (KYC).",
   };
 }
@@ -35,7 +35,7 @@ export default function RekberDirectoryPage() {
         <div className="flex items-start gap-3 rounded-xl border border-blue-200 bg-blue-50/70 p-4 mb-8">
           <ShieldCheck size={20} className="text-blue-600 mt-0.5 shrink-0" />
           <div className="text-xs text-slate-700 leading-relaxed">
-            <strong className="text-slate-900 font-bold">Protokol Keamanan RekberGG:</strong> Seluruh admin di bawah ini adalah pihak ketiga yang telah melewati verifikasi KYC dan menaruh deposit jaminan. Dana transaksi ditransfer langsung ke rekening resmi admin yang tertera dan terlindungi bukti digital.
+            <strong className="text-slate-900 font-bold">Protokol Keamanan Rekberin:</strong> Seluruh admin di bawah ini adalah pihak ketiga yang telah melewati verifikasi KYC dan menaruh deposit jaminan. Dana transaksi ditransfer langsung ke rekening resmi admin yang tertera dan terlindungi bukti digital.
           </div>
         </div>
 

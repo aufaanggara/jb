@@ -259,7 +259,7 @@ export default function ListingDetailPage({ params }: { params: { id: string } }
               <div className="mt-5 p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 text-xs text-slate-600 space-y-2">
                 <div className="flex items-center gap-2 font-bold text-slate-900">
                   <Lock size={13} className="text-emerald-600" />
-                  Jaminan Transaksi RekberGG:
+                  Jaminan Transaksi Rekberin:
                 </div>
                 <ul className="space-y-1.5 pl-5 list-disc text-[11px] text-slate-500">
                   <li>Dana aman di escrow admin sampai akun diterima</li>

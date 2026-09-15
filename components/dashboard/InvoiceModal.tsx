@@ -31,13 +31,13 @@ export function InvoiceModal({ transaction: t, onClose }: InvoiceModalProps) {
       <div className="bg-white rounded-3xl max-w-lg w-full shadow-2xl overflow-hidden border border-slate-200 animate-in fade-in zoom-in-95 duration-200 my-8">
         {/* Modal Top Bar */}
         <div className="bg-slate-900 text-white p-4 sm:px-6 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center font-black text-sm">
-              GG
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white shadow-xs">
+              <ShieldCheck size={18} />
             </div>
             <div>
               <h3 className="font-bold text-sm">Struk Transaksi Escrow Resmi</h3>
-              <p className="text-[10px] text-slate-400">RekberGG Marketplace Garansi 100%</p>
+              <p className="text-[10px] text-slate-400">Rekberin Marketplace Garansi 100%</p>
             </div>
           </div>
           <button
@@ -155,7 +155,7 @@ export function InvoiceModal({ transaction: t, onClose }: InvoiceModalProps) {
               <ShieldCheck size={22} />
             </div>
             <div className="text-[11px] leading-snug">
-              <span className="font-bold text-blue-900 block">Jaminan Keamanan RekberGG</span>
+              <span className="font-bold text-blue-900 block">Jaminan Keamanan Rekberin</span>
               <span className="text-blue-700/80">
                 Struk ini merupakan bukti sah transaksi escrow. Simpan struk ini untuk keperluan klaim garansi akun.
               </span>

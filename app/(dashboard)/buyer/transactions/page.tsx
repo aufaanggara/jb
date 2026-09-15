@@ -14,7 +14,7 @@ export default function BuyerTransactionsPage() {
         <div>
           <h1 className="font-display text-2xl font-bold text-slate-900">Riwayat Transaksi Pembelian</h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            Daftar lengkap akun game yang pernah atau sedang kamu beli melalui sistem Escrow RekberGG.
+            Daftar lengkap akun game yang pernah atau sedang kamu beli melalui sistem Escrow Rekberin.
           </p>
         </div>
 

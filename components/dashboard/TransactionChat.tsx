@@ -112,7 +112,7 @@ export function TransactionChat({
       "Bisa bantu verifikasi email pembeli?",
     ],
     ADMIN: [
-      "Dana aman di escrow RekberGG. Penjual silakan serahkan data akun ke Vault.",
+      "Dana aman di escrow Rekberin. Penjual silakan serahkan data akun ke Vault.",
       "Pembeli silakan cek data akun di Vault & amankan sandi/2FA.",
       "Transaksi selesai, dana diteruskan ke penjual.",
     ],

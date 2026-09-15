@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "RekberGG — Marketplace & Rekber Akun Game",
-    short_name: "RekberGG",
+    name: "Rekberin — Marketplace & Rekber Akun Game",
+    short_name: "Rekberin",
     description:
       "Marketplace jual beli akun eFootball, Mobile Legends & FC Mobile terverifikasi dengan jaminan rekber escrow aman.",
     start_url: "/",

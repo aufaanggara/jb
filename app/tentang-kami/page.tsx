@@ -6,9 +6,9 @@ import { FAQ } from "@/components/landing/FAQ";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Tentang Kami — RekberGG",
+  title: "Tentang Kami — Rekberin",
   description:
-    "Pelajari cara kerja RekberGG, kalkulator fee, admin rekber terverifikasi, dan FAQ seputar jual beli akun game aman.",
+    "Pelajari cara kerja Rekberin, kalkulator fee, admin rekber terverifikasi, dan FAQ seputar jual beli akun game aman.",
 };
 
 export default function TentangKamiPage() {
@@ -23,7 +23,7 @@ export default function TentangKamiPage() {
 
         <div className="relative mx-auto max-w-4xl px-4 sm:px-6 text-center z-10">
           <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white mb-4">
-            Tentang <span className="text-blue-200">RekberGG</span>
+            Tentang <span className="text-blue-200">Rekberin</span>
           </h1>
           <p className="text-blue-100/80 max-w-2xl mx-auto text-sm sm:text-lg leading-relaxed">
             Platform marketplace & rekber akun game terpercaya di Indonesia. 

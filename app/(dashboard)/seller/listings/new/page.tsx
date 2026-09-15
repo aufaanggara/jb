@@ -11,7 +11,7 @@ export default function SellerNewListingPage() {
         <div className="mb-6">
           <h1 className="font-display text-2xl font-bold text-slate-900">Buat Iklan Akun Baru</h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            Unggah foto screenshot dan lengkapi detail akun untuk diterbitkan ke katalog RekberGG.
+            Unggah foto screenshot dan lengkapi detail akun untuk diterbitkan ke katalog Rekberin.
           </p>
         </div>
 

@@ -55,7 +55,7 @@ export function PaymentModal({
     setTimeout(() => {
       payTransaction(transactionId, method.replace("_", " "));
       setIsProcessing(false);
-      toast.success("Pembayaran Berhasil Diverifikasi oleh Escrow RekberGG!");
+      toast.success("Pembayaran Berhasil Diverifikasi oleh Escrow Rekberin!");
       onClose();
     }, 900);
   };
@@ -211,7 +211,7 @@ export function PaymentModal({
                       ? "8801 2910 8821 902"
                       : method === "VA_MANDIRI"
                       ? "8910 3381 0021 445"
-                      : "0812 3456 7890 (RekberGG Escrow)"}
+                      : "0812 3456 7890 (Rekberin Escrow)"}
                   </span>
                   <button
                     onClick={() =>
@@ -252,7 +252,7 @@ export function PaymentModal({
           <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-200/80 text-[11px] text-emerald-800 flex items-start gap-2">
             <ShieldCheck size={15} className="text-emerald-600 shrink-0 mt-0.5" />
             <span>
-              Dana yang Anda bayarkan akan <strong>disimpan di rekening penampung resmi (escrow)</strong> RekberGG sampai akun berhasil diserahterimakan dan diamankan.
+              Dana yang Anda bayarkan akan <strong>disimpan di rekening penampung resmi (escrow)</strong> Rekberin sampai akun berhasil diserahterimakan dan diamankan.
             </span>
           </div>
 

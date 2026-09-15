@@ -1,8 +1,8 @@
-// RekberGG Service Worker — PWA Offline Support
+// Rekberin Service Worker — PWA Offline Support
 // Strategi: Network-first with cache fallback untuk navigasi,
 // Cache-first untuk static assets (JS, CSS, images, fonts).
 
-const CACHE_NAME = "rekbergg-v1";
+const CACHE_NAME = "rekberin-v1";
 const OFFLINE_URL = "/offline";
 
 // Static assets to pre-cache on install

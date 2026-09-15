@@ -567,7 +567,7 @@ export const dummyChatMessages: ChatMessage[] = [
     transactionId: "trx_3",
     senderRole: "ADMIN",
     senderName: "Rekber_Anto",
-    message: "Alhamdulillah lancar! Dana akan dicairkan ke seller. Terima kasih sudah pakai RekberGG 🎉",
+    message: "Alhamdulillah lancar! Dana akan dicairkan ke seller. Terima kasih sudah pakai Rekberin 🎉",
     timestamp: "2025-01-10T09:35:00",
   },
 
@@ -577,7 +577,7 @@ export const dummyChatMessages: ChatMessage[] = [
     transactionId: "trx_4",
     senderRole: "ADMIN",
     senderName: "Rekber_Anto",
-    message: "Halo kak! Room chat rekber untuk akun Modric Epic sudah aktif. Dana pembeli aman di escrow RekberGG.",
+    message: "Halo kak! Room chat rekber untuk akun Modric Epic sudah aktif. Dana pembeli aman di escrow Rekberin.",
     timestamp: "2025-01-16T14:20:00",
   },
   {

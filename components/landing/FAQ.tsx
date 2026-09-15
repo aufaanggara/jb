@@ -21,11 +21,11 @@ const faqs = [
   },
   {
     q: "Bagaimana jika penjual memberikan akun yang tidak sesuai deskripsi?",
-    a: "Admin akan membatalkan transaksi dan merefund 100% uangmu. Penjual yang berniat menipu atau memberikan data palsu akan langsung ditandai dalam daftar ripper/penipu RekberGG.",
+    a: "Admin akan membatalkan transaksi dan merefund 100% uangmu. Penjual yang berniat menipu atau memberikan data palsu akan langsung ditandai dalam daftar ripper/penipu Rekberin.",
     category: "Garansi & Refund",
   },
   {
-    q: "Bagaimana cara menjadi Admin Rekber di RekberGG?",
+    q: "Bagaimana cara menjadi Admin Rekber di Rekberin?",
     a: "Kamu dapat mengajukan diri melalui menu 'Gabung Admin'. Persyaratannya mencakup verifikasi KTP resmi (KYC), reputasi minimal 6 bulan di komunitas gaming, dan penempatan deposit jaminan keamanan.",
     category: "Pendaftaran Admin",
   },
@@ -44,7 +44,7 @@ export function FAQ() {
           Pertanyaan yang Sering Diajukan
         </h2>
         <p className="text-sm sm:text-base text-slate-600 max-w-md mx-auto">
-          Semua hal yang perlu kamu ketahui seputar keamanan dan transaksi di RekberGG.
+          Semua hal yang perlu kamu ketahui seputar keamanan dan transaksi di Rekberin.
         </p>
       </div>
 

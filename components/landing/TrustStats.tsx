@@ -36,10 +36,10 @@ export function TrustSafety() {
     <section className="mx-auto max-w-7xl px-4 sm:px-6 py-20">
       <div className="text-center max-w-2xl mx-auto mb-14">
         <span className="text-xs font-semibold uppercase tracking-wider text-blue-600 bg-blue-50 px-3 py-1 rounded-full border border-blue-100">
-          Standar Keamanan RekberGG
+          Standar Keamanan Rekberin
         </span>
         <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-3 mb-3">
-          Mengapa Transaksi di RekberGG Lebih Aman?
+          Mengapa Transaksi di Rekberin Lebih Aman?
         </h2>
         <p className="text-sm sm:text-base text-slate-600">
           Setiap transaksi dilindungi oleh sistem escrow terdesentralisasi bersama admin rekber berlisensi.
@@ -71,10 +71,10 @@ export function TrustSafety() {
         })}
       </div>
 
-      {/* Comparison table — Direct vs RekberGG */}
+      {/* Comparison table — Direct vs Rekberin */}
       <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm max-w-4xl mx-auto">
         <h3 className="text-xl font-bold text-slate-900 text-center mb-6">
-          Perbandingan: Transaksi Langsung vs RekberGG
+          Perbandingan: Transaksi Langsung vs Rekberin
         </h3>
         <div className="grid md:grid-cols-2 gap-6">
           {/* Tanpa Rekber */}
@@ -99,11 +99,11 @@ export function TrustSafety() {
             </ul>
           </div>
 
-          {/* Lewat RekberGG */}
+          {/* Lewat Rekberin */}
           <div className="rounded-xl bg-emerald-50/60 border border-emerald-200 p-5">
             <div className="flex items-center gap-2 text-emerald-800 font-bold text-sm mb-4">
               <CheckCircle2 size={18} className="text-emerald-600" />
-              <span>Lewat RekberGG (100% Aman & Terjamin)</span>
+              <span>Lewat Rekberin (100% Aman & Terjamin)</span>
             </div>
             <ul className="space-y-3 text-xs sm:text-sm text-slate-700">
               <li className="flex items-start gap-2.5">

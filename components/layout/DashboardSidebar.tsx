@@ -329,7 +329,7 @@ export function DashboardSidebar({ role }: { role: "buyer" | "seller" | "admin" 
       <div className="p-3.5 rounded-2xl bg-gradient-to-br from-slate-50 to-blue-50/30 border border-slate-200 text-xs space-y-1.5">
         <div className="flex items-center gap-1.5 font-bold text-slate-800 text-[11px]">
           <ShieldCheck size={14} className="text-emerald-600" />
-          <span>Proteksi RekberGG Escrow</span>
+          <span>Proteksi Rekberin Escrow</span>
         </div>
         <p className="text-[11px] text-slate-500 leading-relaxed">
           Dana & data akun tersimpan aman di penampungan rekber hingga serah terima tuntas 100%.

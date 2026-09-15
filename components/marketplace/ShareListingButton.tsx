@@ -24,7 +24,7 @@ export function ShareListingButton({ title, price }: ShareListingButtonProps) {
 
   const handleShareWA = () => {
     if (typeof window !== "undefined") {
-      const text = `Halo! Cek akun game "${title}" seharga ${formatRupiah(price)} di RekberGG. Transaksi aman terlindungi rekening escrow: ${window.location.href}`;
+      const text = `Halo! Cek akun game "${title}" seharga ${formatRupiah(price)} di Rekberin. Transaksi aman terlindungi rekening escrow: ${window.location.href}`;
       const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
       window.open(url, "_blank");
     }

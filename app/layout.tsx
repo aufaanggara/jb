@@ -16,13 +16,13 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "RekberGG — Marketplace & Rekber Akun Game Terpercaya",
+  title: "Rekberin — Marketplace & Rekber Akun Game Terpercaya",
   description:
-    "Cari akun game impianmu dan transaksi aman dengan admin rekber terverifikasi di RekberGG. Seperti Glints tapi khusus gamer!",
+    "Cari akun game impianmu dan transaksi aman dengan admin rekber terverifikasi di Rekberin. Seperti Glints tapi khusus gamer!",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "RekberGG",
+    title: "Rekberin",
   },
   other: {
     "mobile-web-app-capable": "yes",
@@ -34,7 +34,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="id">
       <head>
         <link rel="apple-touch-icon" href="/apple-icon.png" />
-        <link rel="manifest" href="/manifest.webmanifest" />
         <meta name="theme-color" content="#2563eb" />
       </head>
       <body className="font-sans bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased selection:bg-blue-100 selection:text-blue-700">
