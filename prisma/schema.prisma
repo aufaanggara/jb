@@ -14,7 +14,6 @@ model User {
   username    String   @unique
   fullName    String
   password    String?  // Nullable: untuk fleksibilitas OAuth di masa depan
-  whatsapp    String?
   avatarUrl   String?
   role        Role     @default(USER)
   isVerified  Boolean  @default(false)
