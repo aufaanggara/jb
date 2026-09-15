@@ -10,7 +10,7 @@
  *   - "Sebagai Penjual" → listing, pesanan masuk, tarik saldo
  */
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import {
@@ -87,7 +87,7 @@ const initialInquiries: Inquiry[] = [
   { id: "inq_2", listingId: "2", transactionId: "tx_2", listingTitle: "Akun eFootball Divisi 1", buyerName: "Rizky_Gamer", question: "Ada Big Time Haaland atau Messi 2022 gan di akun ini?", time: "1 jam lalu", replied: true },
 ];
 
-export default function UserDashboardPage() {
+function UserDashboardContent() {
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<ActiveTab>("buyer");
 
@@ -1014,5 +1014,20 @@ export default function UserDashboardPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function UserDashboardPage() {
+  return (
+    <Suspense fallback={
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12 flex justify-center items-center min-h-[400px]">
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
+          <p className="text-xs font-semibold text-slate-400">Memuat Dashboard...</p>
+        </div>
+      </div>
+    }>
+      <UserDashboardContent />
+    </Suspense>
   );
 }
